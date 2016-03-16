@@ -23,4 +23,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the forms for this user.
+     */
+    public function forms()
+    {
+        return $this->belongsToMany('App\Form');
+    }
 }
