@@ -7,6 +7,7 @@
                 <div class="page-header">
                     <h3>Profile</h3>
                 </div>
+                <!-- TODO: Point form save to somewhere -->
                 <form>
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label text-right">Name:</label>
@@ -39,6 +40,7 @@
                         <button type="submit" class="btn btn-primary btn-wide mrm">Save</button>
                         <a href="/home" class="btn btn-default btn-wide">Cancel</a>
                     </div>
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 </form>
             </div> <!-- /.col-md-4 -->
         </div>
