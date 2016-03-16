@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Form;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -51,7 +53,20 @@ class FormController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // TODO: Validator
+
+        $user = $request->user();
+
+        $form = new Form;
+        $form->title = $request->input('title');
+        $form->description = $request->input('description');
+        $form->responses_url = $request->input('responses_url');
+        $form->save();
+
+        $user->forms()->attach($form, ['role_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
+        $user->save();
+
+        return redirect('/home');
     }
 
     /**
