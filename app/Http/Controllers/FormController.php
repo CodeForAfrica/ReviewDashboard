@@ -39,7 +39,8 @@ class FormController extends Controller
     {
         $data = array(
             'page' => array(
-                'title' => 'Create Form'
+                'title' => 'Create Form',
+                'cancel_link' => '/home'
             )
         );
         return view('forms.edit', $data);
@@ -73,7 +74,7 @@ class FormController extends Controller
         );
         $user->save();
 
-        return redirect('/home');
+        return redirect('/form/'.$form->id);
     }
 
     /**
@@ -85,6 +86,10 @@ class FormController extends Controller
     public function show($id)
     {
         //
+        $data = array(
+            'form' => Form::findOrFail($id)
+        );
+        return view('forms.view',$data);
     }
 
     /**
@@ -96,6 +101,14 @@ class FormController extends Controller
     public function edit($id)
     {
         //
+        $data = array(
+            'page' => array(
+                'title' => 'Create Form',
+                'cancel_link' => '/form/'.$id
+            ),
+            'form' => Form::findOrFail($id)
+        );
+        return view('forms.edit', $data);
     }
 
     /**
@@ -107,7 +120,15 @@ class FormController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // TODO: Validator
+
+        $form = Form::findOrFail($id);
+        $form->title = $request->input('title');
+        $form->description = $request->input('description');
+        $form->responses_url = $request->input('responses_url');
+        $form->save();
+
+        return 1;
     }
 
     /**
@@ -119,5 +140,7 @@ class FormController extends Controller
     public function destroy($id)
     {
         //
+        Form::findOrFail($id)->delete();
+        return 1;
     }
 }
