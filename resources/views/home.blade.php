@@ -11,11 +11,9 @@
                     <a href="form/create" class="btn btn-primary btn-wide"><i class="fa fa-btn fa-plus"></i> New Form</a>
                 </div>
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Cras justo odio</a>
-                    <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                    <a href="#" class="list-group-item">Morbi leo risus</a>
-                    <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                    <a href="#" class="list-group-item">Vestibulum at eros</a>
+                    @foreach($forms as $form)
+                        <a href="/form/{{ $form->id }}" class="list-group-item">{{ $form->title }}</a>
+                    @endforeach
                 </div>
             </div> <!-- /.panel -->
         </div> <!-- /.col-md-4 -->
