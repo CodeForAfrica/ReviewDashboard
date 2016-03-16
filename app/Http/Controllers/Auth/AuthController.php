@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -28,7 +30,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new authentication controller instance.
@@ -37,7 +39,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware($this->guestMiddleware(), ['except' => ['logout','redirectToProvider', 'handleProviderCallback']]);
     }
 
     /**
@@ -69,4 +71,39 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+
+    /**
+     * Redirect the user to the Social Platform authentication page.
+     *
+     * @return Response
+     */
+    public function redirectToProvider()
+    {
+        return Socialite::driver('google')
+            ->scopes([
+                'https://spreadsheets.google.com/feeds',
+                'email'
+            ])->redirect();
+    }
+
+    /**
+     * Obtain the user information from Social Platform.
+     *
+     * @return Response
+     */
+    public function handleProviderCallback()
+    {
+        $google = Socialite::driver('google')->user();
+
+        $user = Auth::user();
+        $user->google_token = $google->token;
+        $user->save();
+
+        return redirect('profile');
+
+        // $user->token;
+    }
+
+
 }
