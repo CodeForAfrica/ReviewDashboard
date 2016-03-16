@@ -63,7 +63,14 @@ class FormController extends Controller
         $form->responses_url = $request->input('responses_url');
         $form->save();
 
-        $user->forms()->attach($form, ['role_id' => 2, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
+        $user->forms()->attach(
+            $form,
+            [
+                'role_id' => 2,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]
+        );
         $user->save();
 
         return redirect('/home');
