@@ -8,7 +8,7 @@
                 <div class="panel-heading">Forms</div>
 
                 <div class="panel-body">
-                    <a href="form/create" class="btn btn-primary btn-wide"><i class="fa fa-plus"></i> New Form</a>
+                    <a href="form/create" class="btn btn-primary btn-wide"><i class="fa fa-btn fa-plus"></i> New Form</a>
                 </div>
                 <div class="list-group">
                     <a href="#" class="list-group-item">Cras justo odio</a>
