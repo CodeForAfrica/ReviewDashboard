@@ -33,6 +33,10 @@ class ProfileController extends Controller
     {
         if ($request->user()) {
             // $request->user() returns an instance of the authenticated user...
+
+            // TODO: Set up validator
+
+            // TODO: Save inputs
         }
     }
 }
