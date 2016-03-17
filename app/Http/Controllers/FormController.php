@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Form;
+use App\Jobs\ImportResponses;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -62,6 +63,7 @@ class FormController extends Controller
         $form->title = $request->input('title');
         $form->description = $request->input('description');
         $form->responses_url = $request->input('responses_url');
+
         $form->save();
 
         $user->forms()->attach(
@@ -73,6 +75,8 @@ class FormController extends Controller
             ]
         );
         $user->save();
+
+        $this->dispatch(new ImportResponses($form));
 
         return redirect('/form/'.$form->id);
     }
@@ -125,8 +129,13 @@ class FormController extends Controller
         $form = Form::findOrFail($id);
         $form->title = $request->input('title');
         $form->description = $request->input('description');
+
+        // TODO: Check if responses url has changed, new import if so.
         $form->responses_url = $request->input('responses_url');
+
         $form->save();
+
+        $this->dispatch(new ImportResponses($form));
 
         return 1;
     }
