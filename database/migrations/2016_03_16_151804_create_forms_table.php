@@ -17,6 +17,7 @@ class CreateFormsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('responses_url');
+            $table->string('import_status')->default(1);
             $table->timestamps();
         });
     }
