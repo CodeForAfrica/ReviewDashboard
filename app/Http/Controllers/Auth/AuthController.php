@@ -86,10 +86,6 @@ class AuthController extends Controller
                 'email',
                 'https://www.googleapis.com/auth/drive.file'
             ])
-            ->with([
-                'access_type'     => 'offline',
-                'approval_prompt' => 'force'
-            ])
             ->redirect();
     }
 
@@ -108,7 +104,6 @@ class AuthController extends Controller
 
         return redirect('profile');
 
-        // $user->token;
     }
 
 
