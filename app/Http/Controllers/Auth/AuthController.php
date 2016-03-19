@@ -82,9 +82,8 @@ class AuthController extends Controller
     {
         return Socialite::driver('google')
             ->scopes([
-                'https://spreadsheets.google.com/feeds',
-                'email',
-                'https://www.googleapis.com/auth/drive.file'
+                'https://www.googleapis.com/auth/drive.readonly',
+                'email'
             ])
             ->redirect();
     }
