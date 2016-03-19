@@ -45,9 +45,9 @@ class User extends Authenticatable
     {
         try {
             $decrypted = Crypt::decrypt($value);
-            return json_decode($decrypted);
+            return json_decode($decrypted, true);
         } catch (DecryptException $e) {
-            return json_decode('{"success":false}');
+            return json_decode('{"success":false}', true);
         }
 
     }
