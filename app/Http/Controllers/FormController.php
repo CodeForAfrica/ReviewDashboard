@@ -135,6 +135,9 @@ class FormController extends Controller
 
         $form->save();
 
+        // TODO: If url changed do:
+        $form->import_status = 1;
+        $form->save();
         $this->dispatch(new ImportResponses($form));
 
         return 1;
