@@ -15,6 +15,7 @@
                         <textarea class="form-control" name="description" placeholder="Form Description" rows="3">{{ $form->description or '' }}</textarea>
                     </div>
                     <div class="form-group">
+                        {{-- TODO: Use Google Picker API (https://goo.gl/Z9rzcv)--}}
                         <label for="url">Responses URL (Google Sheets):</label>
                         <input type="text" class="form-control" name="responses_url" placeholder="https://docs.google.com/spreadsheets/d/13Wxta0N3WrKMUp2XeVj0L6l_V6beGo4OQ8PSM_SHCU4/edit#gid=0" value="{{ $form->responses_url or '' }}">
                     </div>
@@ -33,6 +34,10 @@
 @section('javascript')
     <script type="text/javascript">
         function updateForm(id) {
+
+            // TODO: Check if already running (in case of "Save" clicked twice)
+            // TODO: Disable save button
+
             $.ajax({
                 type: "PATCH",
                 data: {
