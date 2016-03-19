@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Crypt;
 
 class User extends Authenticatable
 {
@@ -31,4 +33,34 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Form');
     }
+
+
+    /**
+     * Get the user's Google access token.
+     *
+     * @param  string  $value
+     * @return array
+     */
+    public function getGoogleTokenAttribute($value)
+    {
+        try {
+            $decrypted = Crypt::decrypt($value);
+            return json_decode($decrypted);
+        } catch (DecryptException $e) {
+            return json_decode('{"success":false}');
+        }
+
+    }
+
+    /**
+     * Set the user's Google access toke.
+     *
+     * @param  mixed  $value
+     * @return string
+     */
+    public function setGoogleTokenAttribute($value)
+    {
+        $this->attributes['google_token'] = Crypt::encrypt(json_encode($value));
+    }
+
 }
