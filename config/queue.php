@@ -45,7 +45,7 @@ return [
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',
-            'queue' => 'default',
+            'queue' => 'cfa-dash-review',
             'ttr' => 60,
         ],
 
