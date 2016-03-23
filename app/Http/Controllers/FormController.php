@@ -90,9 +90,15 @@ class FormController extends Controller
     public function show($id)
     {
         //
+        $form = Form::findOrFail($id);
+
+        $responses = $form->responses()->paginate(10);
+
         $data = array(
-            'form' => Form::findOrFail($id)
+            'form'      => $form,
+            'responses' => $responses
         );
+
         return view('forms.view',$data);
     }
 

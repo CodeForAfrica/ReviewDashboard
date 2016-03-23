@@ -48,7 +48,41 @@
 
                 @elseif( $form->import_status == 2 )
 
-                    Yo!
+                    <form class="form-inline">
+                        <div class="form-group">
+
+                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <label class="checkbox" style="margin-top: -20px;">
+                                        <input type="checkbox" data-toggle="checkbox">
+                                    </label>
+                                </th>
+                                <th>{{ $form->responses_headers[0] }}</th>
+                                <th class="text-center">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach( $responses as $index => $response )
+                                <tr class="clickable-row" data-href="{{ url('/response/'.$response->id ) }}">
+                                    <td>
+                                        <label class="checkbox" style="margin-top: -20px;">
+                                            <input type="checkbox" data-toggle="checkbox">
+                                        </label>
+                                    </td>
+                                    <td>{{ $response->data[0] }}</td>
+                                    <td class="text-center"> - </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </form>
+
+                    <div class="text-center">
+                        {{ $responses->links() }}
+                    </div>
 
                 @endif
 
@@ -73,5 +107,11 @@
             });
         }
     }
+
+    jQuery(document).ready(function($) {
+        $('.clickable-row').click(function() {
+            window.document.location = $(this).data('href');
+        });
+    });
 </script>
 @endsection
