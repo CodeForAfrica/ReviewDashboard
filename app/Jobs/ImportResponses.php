@@ -4,12 +4,14 @@ namespace App\Jobs;
 
 use App\Form;
 use App\Jobs\Job;
+use Carbon\Carbon;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Google_Client;
 use Illuminate\Support\Facades\Storage;
+use League\Csv\Reader;
 
 
 class ImportResponses extends Job implements ShouldQueue
@@ -17,6 +19,7 @@ class ImportResponses extends Job implements ShouldQueue
     use InteractsWithQueue, SerializesModels;
 
     protected $form;
+    protected $responses;
 
     /**
      * Create a new job instance.
@@ -36,15 +39,17 @@ class ImportResponses extends Job implements ShouldQueue
      */
     public function handle()
     {
-        echo "---\n";
-        echo $this->attempts().". Starting up.\n";
+        echo "--- IMPORT RESPONSES | START: ".$this->attempts()." ---\n";
+        echo "[".Carbon::now()."] Starting up.\n";
 
         $this->downloadFile();
+        $this->processResponses();
 
         $this->form->import_status = 2;
         $this->form->save();
 
-        echo $this->attempts()."Done.\n---\n";
+        echo "[".Carbon::now()."] Done.\n";
+        echo "--- IMPORT RESPONSES | DONE: ".$this->attempts()." ---\n";
     }
 
 
@@ -61,15 +66,42 @@ class ImportResponses extends Job implements ShouldQueue
 
         $driveService = new \Google_Service_Drive($client);
         $responses = $driveService->files->export($fileId, 'text/csv', array(
-            'alt' => 'media' ));
+            'alt' => 'media' ))->getBody();
 
         // TODO: Save history of responses instead of replacing
         Storage::put(
             'responses/'.$this->form->id.'/latest.csv',
-            $responses->getBody()
+            $responses
         );
 
-        echo "  - Download complete\n";
+        $this->responses = Reader::createFromString($responses);
+
+        echo "[".Carbon::now()."] Download complete.\n";
+    }
+
+    public function processResponses()
+    {
+        echo "[".Carbon::now()."] Processing responses.\n";
+
+        $this->form->responses()->delete();
+
+        $count = 0;
+
+        foreach ($this->responses as $index => $response) {
+            $response = json_encode($response);
+            if ($index == 0){
+                $this->form->responses_headers = $response;
+                $this->form->save();
+            } else {
+                $this->form->responses()->create([
+                    'index' => $index,
+                    'data' => $response
+                ]);
+            }
+            $count = $index;
+        }
+
+        echo "[".Carbon::now()."] Processing complete [".$count." responses].\n";
     }
 
 
@@ -88,5 +120,6 @@ class ImportResponses extends Job implements ShouldQueue
         echo "! ! ! We have failed you. ! ! !\n";
         echo "! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !\n";
         echo "\n";
+        echo "--- IMPORT RESPONSES | FAILED: ".$this->attempts()." ---\n";
     }
 }
