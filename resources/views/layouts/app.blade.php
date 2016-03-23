@@ -19,6 +19,7 @@
     <style>
         body {
             font-family: 'Lato';
+            padding-top: 53px;
         }
 
         .fa-btn {
@@ -43,7 +44,7 @@
 
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
 
