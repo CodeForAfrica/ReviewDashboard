@@ -36,6 +36,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home', 'HomeController@index');
 
     Route::resource('form', 'FormController');
+    Route::resource('response', 'ResponseController', ['only' => [
+        'show', 'update'
+    ]]);
 
     Route::get('/profile', 'ProfileController@showProfile');
 
