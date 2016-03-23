@@ -30,10 +30,10 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container" style="height: 100%;">
 
-        <div class="row">
-            <div class="col-sm-8" style="border-right: solid 1px #eee;">
+        <div class="row" style="height: 100%;">
+            <div class="col-sm-8" style="border-right: solid 1px #eee;" id="left">
                 <div class="page-header">
                     <h4>Response</h4>
                 </div>
@@ -48,13 +48,9 @@
                     </p>
                 @endforeach
             </div>
-            <div class="col-sm-4">
-                <div data-spy="affix" data-offset-top="0" >
-                    <div style="padding-right: 30px;">
-                        <div class="page-header">
-                            <h4>Review Panel</h4>
-                        </div>
-                    </div>
+            <div class="col-sm-4" id="right">
+                <div class="page-header">
+                    <h4>Review Panel</h4>
                 </div>
             </div>
         </div>
@@ -68,6 +64,15 @@
     <style>
         body {
             padding-top: 106px;
+        }
+        body, html {
+            margin: 0;
+            overflow: hidden;
+            height:100%;
+        }
+        #left, #right{
+            height:100%;
+            overflow-y: scroll;
         }
     </style>
 @endsection
