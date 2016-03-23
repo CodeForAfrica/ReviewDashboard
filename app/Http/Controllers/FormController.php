@@ -12,7 +12,7 @@ use App\Http\Requests;
 class FormController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Create a new FormController instance.
      *
      * @return void
      */
@@ -29,6 +29,7 @@ class FormController extends Controller
     public function index()
     {
         //
+        return redirect('/home');
     }
 
     /**
