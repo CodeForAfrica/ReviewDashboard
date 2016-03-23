@@ -61,7 +61,9 @@ class ResponseController extends Controller
         $response = Response::findOrFail($id);
         $data = array(
             'response' => $response,
-            'form'      => $response->form
+            'form'     => $response->form,
+            'prev_id'  => 0,
+            'next_id'  => 0
         );
         return view('response', $data);
     }

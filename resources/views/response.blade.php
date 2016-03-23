@@ -1,7 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="top: 53px;;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+                <!-- Collapsed Hamburger -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url('/response/'.$prev_id) }}">
+                        <i class="fa fa-arrow-left fa-btn"></i> Previous Application
+                    </a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url('/response/'.$next_id) }}">
+                        Next Application <i class="fa fa-arrow-right fa-btn"></i>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
         <div class="row">
             <div class="col-sm-8" style="border-right: solid 1px #eee;">
                 <div class="page-header">
@@ -19,7 +49,7 @@
                 @endforeach
             </div>
             <div class="col-sm-4">
-                <div data-spy="affix" data-offset-top="0" style="width: inherit;">
+                <div data-spy="affix" data-offset-top="0" >
                     <div style="padding-right: 30px;">
                         <div class="page-header">
                             <h4>Review Panel</h4>
@@ -32,4 +62,12 @@
 @endsection
 
 @section('footer')
+@endsection
+
+@section('styles')
+    <style>
+        body {
+            padding-top: 106px;
+        }
+    </style>
 @endsection
