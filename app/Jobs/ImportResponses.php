@@ -94,8 +94,7 @@ class ImportResponses extends Job implements ShouldQueue
                 $this->form->save();
             } else {
                 $this->form->responses()->create([
-                    'index' => $index,
-                    'data' => $response
+                    'data'     => $response
                 ]);
             }
             $count = $index;

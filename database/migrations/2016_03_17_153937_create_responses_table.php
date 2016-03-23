@@ -15,7 +15,6 @@ class CreateResponsesTable extends Migration
         Schema::create('responses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('form_id');
-            $table->integer('index');
             $table->json('data');
             $table->timestamps();
         });

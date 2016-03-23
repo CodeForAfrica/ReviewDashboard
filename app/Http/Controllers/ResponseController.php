@@ -59,11 +59,22 @@ class ResponseController extends Controller
     public function show($id)
     {
         $response = Response::findOrFail($id);
+
+        $prev_id = $response->form->responses()->where('id', '<', $response->id)->max('id');
+        $next_id = $response->form->responses()->where('id', '>', $response->id)->min('id');
+
+        if( is_null($prev_id) ){
+            $prev_id = $response->form->responses()->where('id', '>', $response->id)->max('id');
+        }
+        if( is_null($next_id) ){
+            $next_id = $response->form->responses()->where('id', '<', $response->id)->min('id');
+        }
+
         $data = array(
             'response' => $response,
             'form'     => $response->form,
-            'prev_id'  => 0,
-            'next_id'  => 0
+            'prev_id'  => $prev_id,
+            'next_id'  => $next_id
         );
         return view('response', $data);
     }
