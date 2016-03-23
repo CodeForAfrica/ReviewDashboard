@@ -14,4 +14,24 @@ class Form extends Model
     {
         return $this->belongsToMany('App\User');
     }
+
+    /**
+     * Get the responses for the form.
+     */
+    public function responses()
+    {
+        return $this->hasMany('App\Response');
+    }
+
+
+    /**
+     * Get the forms's response headers
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getResponsesHeadersAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 }
