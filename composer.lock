@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "662fffc5e10ee4cffcb6e648fa6ed6b9",
-    "content-hash": "3e60c84ff94670637702c82768fd9d6b",
+    "hash": "fba51b900e76b311712bb38874b3b831",
+    "content-hash": "d9920d8a3762ba76f3e179343c435bcb",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -895,6 +895,63 @@
                 "oauth"
             ],
             "time": "2015-10-16 15:39:46"
+        },
+        {
+            "name": "league/csv",
+            "version": "8.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "0a1b535df48507f58ed3c7ab44e72272b11163ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/0a1b535df48507f58ed3c7ab44e72272b11163ac",
+                "reference": "0a1b535df48507f58ed3c7ab44e72272b11163ac",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "^1.9",
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Csv data manipulation made easy in PHP",
+            "homepage": "http://csv.thephpleague.com",
+            "keywords": [
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "write"
+            ],
+            "time": "2015-12-11 09:28:14"
         },
         {
             "name": "league/flysystem",
