@@ -24,7 +24,23 @@
         .fa-btn {
             margin-right: 6px;
         }
+
+        .pagination li > a, .pagination li > span, .pagination li.disabled > a, .pagination li.disabled > span {
+            color: #34495e;
+            background-color: #eee;
+        }
+        .pagination li.disabled > a, .pagination li.disabled > span, .pagination li.disabled > a:hover, .pagination li.disabled > span:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .clickable-row:hover {
+            cursor: pointer;
+        }
+
     </style>
+
+    @yield('styles')
+
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default">
@@ -79,12 +95,16 @@
 
     @section('footer')
         <br/><br/>
-    @endsection
+    @show
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> --}}
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/js/flat-ui.min.js"></script>
+    <script type="text/javascript">
+        $(':checkbox').radiocheck();
+    </script>
 
     @yield('javascript')
 
