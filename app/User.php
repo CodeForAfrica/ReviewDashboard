@@ -53,7 +53,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Set the user's Google access toke.
+     * Set the user's Google access token.
      *
      * @param  mixed  $value
      * @return string
