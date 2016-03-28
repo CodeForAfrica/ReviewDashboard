@@ -15,7 +15,7 @@ class CreateFormsTable extends Migration
         Schema::create('forms', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->string('responses_url');
             $table->longText('responses_headers')->nullable();
             $table->string('import_status')->default(1);
