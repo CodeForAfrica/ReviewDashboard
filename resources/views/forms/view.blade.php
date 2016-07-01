@@ -12,16 +12,21 @@
                         <p>{{ $form->description }}</p>
                     </div>
                     <div class="col-sm-2 text-left">
+                        @if( $form->import_status == 2 )
+                            <p>
+                                <a href="/form/{{ $form->id }}/ratings/config" class="btn btn-block btn-sm btn-primary">
+                                    <i class="fa fa-btn fa-cogs"></i> Ratings Config
+                                </a>
+                            </p>
+                        @endif
                         <p>
                             <a href="/form/{{ $form->id }}/edit" class="btn btn-block btn-sm btn-info">
-                                <i class="fa fa-btn fa-pencil"></i>
-                                Edit
+                                <i class="fa fa-btn fa-pencil"></i> Edit
                             </a>
                         </p>
                         <p>
                             <a href="javascript:deleteForm('{{ $form->id }}');" class="btn btn-block btn-sm btn-danger">
-                                <i class="fa fa-btn fa-trash"></i>
-                                Delete
+                                <i class="fa fa-btn fa-trash"></i> Delete
                             </a>
                         </p>
                     </div> <!-- /.col-sm-3 -->
@@ -60,7 +65,7 @@
                                         <input type="checkbox" data-toggle="checkbox">
                                     </label>
                                 </th>
-                                <th>{{ $form->responses_headers[0] }}</th>
+                                <th>{{ $form->responses_headers[1] }}</th>
                                 <th class="text-center">Status</th>
                             </tr>
                             </thead>
@@ -72,7 +77,7 @@
                                             <input type="checkbox" data-toggle="checkbox">
                                         </label>
                                     </td>
-                                    <td>{{ $response->data[0] }}</td>
+                                    <td>{{ $response->data[1] }}</td>
                                     <td class="text-center"> - </td>
                                 </tr>
                             @endforeach

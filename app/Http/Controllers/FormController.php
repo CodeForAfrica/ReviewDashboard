@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Form;
 use App\Jobs\ImportResponses;
+use App\Response;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -160,6 +161,24 @@ class FormController extends Controller
     {
         //
         Form::findOrFail($id)->delete();
+        return 1;
+    }
+
+
+    public function showRatingsConfig($id)
+    {
+        $form = Form::findOrFail($id);
+
+        return view('forms.ratings_config', compact('form'));
+    }
+
+    public function updateRatingsConfig(Request $request, $id)
+    {
+        $form = Form::findOrFail($id);
+
+        $form->ratings_config = $request->input('configs');
+        $form->save();
+
         return 1;
     }
 }

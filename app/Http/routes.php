@@ -35,9 +35,13 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/home', 'HomeController@index');
 
-    Route::resource('form', 'FormController');
-    Route::resource('response', 'ResponseController', ['only' => [
-        'show', 'update'
+    Route::get('/form/{id}/ratings/config', 'FormController@showRatingsConfig');
+    Route::patch('/form/{id}/ratings/config', 'FormController@updateRatingsConfig');
+    
+    Route::resource('/form', 'FormController');
+
+    Route::resource('/response', 'ResponseController', ['only' => [
+        'show'
     ]]);
 
     Route::get('/profile', 'ProfileController@showProfile');
