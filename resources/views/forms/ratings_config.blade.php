@@ -54,23 +54,23 @@
                         <div class="form-group">
                             <label for="label" class="col-sm-3 control-label">Label</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="label" placeholder="Label" value="@{{ title }}">
+                                <input type="text" class="form-control" name="title" placeholder="Label" value="@{{ title }}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="label" class="col-sm-3 control-label">Type</label>
                             <div class="col-sm-9">
                                 <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn btn-inverse active">
-                                        <input type="radio" name="type" id="option1" autocomplete="off" value="text" checked> Free Text
+                                    <label class="btn btn-inverse @{{ type_text }}">
+                                        <input type="radio" name="type" id="option1" autocomplete="off" value="text"> Free Text
                                     </label>
-                                    <label class="btn btn-inverse">
+                                    <label class="btn btn-inverse @{{ type_numeric }}">
                                         <input type="radio" name="type" id="option2" autocomplete="off" value="numeric"> Numeric
                                     </label>
-                                    <label class="btn btn-inverse">
+                                    <label class="btn btn-inverse @{{ type_yes_no }}">
                                         <input type="radio" name="type" id="option3" autocomplete="off" value="yes_no"> Yes/No
                                     </label>
-                                    <label class="btn btn-inverse">
+                                    <label class="btn btn-inverse @{{ type_stars }}">
                                         <input type="radio" name="type" id="option4" autocomplete="off" value="stars"> Stars
                                     </label>
                                 </div>
@@ -107,8 +107,8 @@
 
             $('.config').each(function ( index ) {
                 payload.configs[index] = {
-                    'label': $( this ).find('input[name="label"]').val(),
-                    'type': $( this ).find('input[name="type"]:checked').val(),
+                    'title': $( this ).find('input[name="title"]').val(),
+                    'type': $( this ).find('label.active input[name="type"]').val(),
                     'description': $( this ).find('textarea[name="description"]').val()
                 }
             });
@@ -125,16 +125,35 @@
 
         function addConfig(config) {
             if ($.isEmptyObject(config)) {
-                config = {id: 'new-'+new_id};
+                config = { id: 'new-'+new_id, type: 'text' };
                 new_id =+ 1;
+            }
+
+            switch (config.type) {
+                case 'text':
+                    config.type_text = 'active';
+                    break;
+                case 'numeric':
+                    config.type_numeric = 'active';
+                    break;
+                case 'yes_no':
+                    config.type_yes_no = 'active';
+                    break;
+                case 'stars':
+                    config.type_stars = 'active';
+                    break;
+                default:
+                    config.type_text = 'active';
             }
 
             var html = template(config);
 
+            console.log(config);
+
             $('#no-config').hide();
             $('.configs').append(html);
 
-            $( '.configs' ).sortable({
+            $('.configs').sortable({
                 items: ' .panel'
             });
             $('select').select2({dropdownCssClass: 'dropdown-inverse'});
@@ -157,7 +176,7 @@
                 $('#no-config').show();
             @else
                 @foreach($form->ratings_config as $config)
-                    addConfig( '{!! json_encode($config) !!}' );
+                    addConfig( {!! json_encode($config) !!} );
                 @endforeach
             @endif
 
