@@ -25,7 +25,7 @@ class Form extends Model
 
 
     /**
-     * Get the forms's response headers
+     * Get the form's response headers
      *
      * @param  string  $value
      * @return string
@@ -33,5 +33,28 @@ class Form extends Model
     public function getResponsesHeadersAttribute($value)
     {
         return json_decode($value, true);
+    }
+
+    /**
+     * Get the form's ratings config
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getRatingsConfigAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+
+    /**
+     * Set the form's ratings config
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function setRatingsConfigAttribute($value)
+    {
+        $this->attributes['ratings_config'] = json_encode($value);
     }
 }
