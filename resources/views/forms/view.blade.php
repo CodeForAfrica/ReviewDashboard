@@ -4,9 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="page-header">
-                    <h1>{{ $form->title }}</h1>
-                </div>
+                <h3 class="page-header">{{ $form->title }}</h3>
                 <div class="row">
                     <div class="col-sm-10">
                         <p>{{ $form->description }}</p>
