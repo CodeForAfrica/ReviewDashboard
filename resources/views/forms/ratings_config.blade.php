@@ -148,8 +148,6 @@
 
             var html = template(config);
 
-            console.log(config);
-
             $('#no-config').hide();
             $('.configs').append(html);
 
