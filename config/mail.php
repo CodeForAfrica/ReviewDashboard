@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'reviewdashboard@codeforafrica.org', 'name' => 'Review Dashboard'],
 
     /*
     |--------------------------------------------------------------------------
