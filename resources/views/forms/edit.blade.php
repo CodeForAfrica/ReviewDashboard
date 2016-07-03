@@ -4,9 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <div class="page-header">
-                    <h1>{{ $page['title'] }}</h1>
-                </div>
+                <h3 class="page-header">{{ $page['title'] }}</h3>
                 <form action="/form" method="POST">
                     <div class="form-group">
                         <input type="text" class="form-control input-hg" name="title" placeholder="Form Title" value="{{ $form->title or '' }}">

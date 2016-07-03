@@ -40,6 +40,11 @@
             cursor: pointer;
         }
 
+        .checkbox label, .radio label {
+            padding-left: 0;
+            line-height: 1.5;
+        }
+
     </style>
 
     @yield('styles')

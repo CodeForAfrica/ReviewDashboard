@@ -77,6 +77,7 @@ class ResponseController extends Controller
             $review = new Review;
             $review->response_id = $response->id;
             $review->user_id     = $request->user()->id;
+            $review->form_id     = $response->form->id;
             $review->save();
         }
 
@@ -112,6 +113,7 @@ class ResponseController extends Controller
     {
         //
         $review = Review::firstOrNew(['response_id' => $id, 'user_id' => $request->user()->id]);
+        $review->form_id   = Response::find($id)->form->id;
         $review->feedback  = $request->input('reviews');
         $review->save();
         return 1;

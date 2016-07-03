@@ -4,12 +4,20 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <h3 class="page-header">{{ $form->title }}</h3>
+                <h3 class="page-header">
+                    {{ $form->title }}
+                    <small>. <a href="{{ $form->responses_url }}" target="_blank">Responses Source</a></small>
+                </h3>
                 <div class="row">
-                    <div class="col-sm-10">
+                    <div class="col-sm-8">
                         <p>{{ $form->description }}</p>
                     </div>
                     <div class="col-sm-2 text-left">
+                        <p>
+                            <a href="/form/{{ $form->id }}/share" class="btn btn-block btn-sm btn-info">
+                                <i class="fa fa-btn fa-users"></i> Share
+                            </a>
+                        </p>
                         @if( $form->import_status == 2 )
                             <p>
                                 <a href="/form/{{ $form->id }}/ratings/config" class="btn btn-block btn-sm btn-primary">
@@ -17,8 +25,10 @@
                                 </a>
                             </p>
                         @endif
+                    </div> <!-- /.col-sm-3 -->
+                    <div class="col-sm-2 text-left">
                         <p>
-                            <a href="/form/{{ $form->id }}/edit" class="btn btn-block btn-sm btn-info">
+                            <a href="/form/{{ $form->id }}/edit" class="btn btn-block btn-sm btn-warning">
                                 <i class="fa fa-btn fa-pencil"></i> Edit
                             </a>
                         </p>

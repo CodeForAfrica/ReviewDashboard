@@ -35,8 +35,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/home', 'HomeController@index');
 
-    Route::get('/form/{id}/ratings/config', 'FormController@showRatingsConfig');
-    Route::patch('/form/{id}/ratings/config', 'FormController@updateRatingsConfig');
+    Route::get('/form/{id}/ratings/config', 'FormController@showReviewConfig');
+    Route::patch('/form/{id}/ratings/config', 'FormController@updateReviewConfig');
+
+    Route::get('/form/{id}/share', 'FormController@showUsers');
 
     Route::resource('/form', 'FormController');
 

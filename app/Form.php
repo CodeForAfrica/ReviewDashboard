@@ -23,6 +23,14 @@ class Form extends Model
         return $this->hasMany('App\Response');
     }
 
+    /**
+     * Get the reviews for the form.
+     */
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
 
     /**
      * Get the form's response headers

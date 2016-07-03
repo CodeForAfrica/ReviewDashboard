@@ -12,7 +12,7 @@ class Review extends Model
      * @var array
      */
     protected $fillable = [
-        'response_id', 'user_id',
+        'response_id', 'user_id', 'form_id'
     ];
 
 
@@ -30,6 +30,14 @@ class Review extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Get the form that is tied to the review.
+     */
+    public function form()
+    {
+        return $this->belongsTo('App\Form');
     }
 
 

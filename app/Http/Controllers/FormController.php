@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Form;
 use App\Jobs\ImportResponses;
 use App\Response;
+use App\Review;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -165,14 +166,27 @@ class FormController extends Controller
     }
 
 
-    public function showRatingsConfig($id)
+    /**
+     * Show review config page
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showReviewConfig($id)
     {
         $form = Form::findOrFail($id);
 
         return view('forms.ratings_config', compact('form'));
     }
 
-    public function updateRatingsConfig(Request $request, $id)
+    /**
+     * Update the review config
+     *
+     * @param Request $request
+     * @param $id
+     * @return int
+     */
+    public function updateReviewConfig(Request $request, $id)
     {
         $form = Form::findOrFail($id);
 
@@ -180,5 +194,43 @@ class FormController extends Controller
         $form->save();
 
         return 1;
+    }
+
+
+    /**
+     * Show users who have access to this form.
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showUsers(Request $request, $id)
+    {
+        //
+        $form = Form::findOrFail($id);
+
+        $users = array();
+
+        foreach ($form->users as $index => $user) {
+            $users[$index] = new \stdClass();
+
+            $users[$index]->id = $user->id;
+            $users[$index]->name = $user->name;
+            $users[$index]->email = $user->email;
+
+            $users[$index]->reviews_done = Review::where('user_id', $user->id)->where('form_id', $form->id)->count();
+
+            $users[$index]->role = 'Admin';
+        }
+
+        $data = array(
+            'page' => array(
+                'title' => 'Users',
+                'cancel_link' => '/form/'.$id
+            ),
+            'form'  => $form,
+            'users' => $users
+        );
+        return view('forms.share', $data);
     }
 }

@@ -16,6 +16,7 @@ class CreateReviewsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('response_id');
+            $table->integer('form_id');
             $table->longText('feedback')->default('[]');
             $table->timestamps();
         });
