@@ -6,10 +6,14 @@ use App\Form;
 use App\Jobs\ImportResponses;
 use App\Response;
 use App\Review;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class FormController extends Controller
 {
@@ -72,7 +76,7 @@ class FormController extends Controller
         $user->forms()->attach(
             $form,
             [
-                'role_id' => 2,
+                'role_id' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]
@@ -232,5 +236,35 @@ class FormController extends Controller
             'users' => $users
         );
         return view('forms.share', $data);
+    }
+
+    public function updateUsers(Request $request, $id)
+    {
+        // TODO: Allow bulk adding of users.
+
+        // TODO: Validate input.
+
+        $user = User::firstOrNew(['email' => $request->input('email')]);
+        if (!$user->name) {
+            $user->name = $request->input('name');
+            $user->password = str_random(40);
+            $user->save();
+
+            // TODO: Send welcome e-mail.
+        }
+
+        $form = Form::find($id);
+
+        $user->forms()->attach(
+            $form,
+            [
+                'role_id' => $request->input('role_id'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]
+        );
+        $user->save();
+
+        return redirect('/form/'.$id.'/share');
     }
 }

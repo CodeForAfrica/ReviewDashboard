@@ -39,6 +39,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::patch('/form/{id}/ratings/config', 'FormController@updateReviewConfig');
 
     Route::get('/form/{id}/share', 'FormController@showUsers');
+    Route::post('/form/{id}/share', 'FormController@updateUsers');
 
     Route::resource('/form', 'FormController');
 

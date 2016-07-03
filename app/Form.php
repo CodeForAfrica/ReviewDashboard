@@ -12,6 +12,13 @@ class Form extends Model
      */
     public function users()
     {
+        /**
+         * ROLES:
+         * -----
+         * 1 - Admin
+         * 2 - Reviewer
+         */
+        
         return $this->belongsToMany('App\User');
     }
 
