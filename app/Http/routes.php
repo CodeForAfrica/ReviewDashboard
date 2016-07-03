@@ -40,6 +40,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/form/{id}/share', 'FormController@showUsers');
     Route::post('/form/{id}/share', 'FormController@updateUsers');
+    Route::delete('/form/{id}/share', 'FormController@deleteUsers');
 
     Route::resource('/form', 'FormController');
 

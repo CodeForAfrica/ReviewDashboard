@@ -278,6 +278,14 @@ class FormController extends Controller
 
         return redirect('/form/'.$id.'/share');
     }
+
+
+    public function deleteUsers(Request $request, $id)
+    {
+        $form = Form::find($id);
+        $form->users()->detach($request->input('users'));
+        return 1;
+    }
     
     
 }

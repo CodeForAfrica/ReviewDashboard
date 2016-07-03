@@ -27,14 +27,14 @@
                                 </div>
                             </div>
                             <div class="col-sm-9 text-right">
-                                <button class="btn btn-link">REMOVE</button>
+                                <button class="btn btn-link" onclick="removeUsers();">REMOVE</button>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         SET PERMISSIONS <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#">Admin</a></li>
                                         <li><a href="#">Reviewer</a></li>
+                                        <li><a href="#">Administrator</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -101,10 +101,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 
     <script type="text/x-handlebars-template" id="template-user">
-        <a href="#" class="list-group-item">
+        <a href="#" class="list-group-item user-single">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox">
+                    <input type="checkbox" data-user-id="@{{ id }}">
                     <h5 class="list-group-item-heading">@{{ name }} <small>@{{ role }}</small></h5>
                     <p class="list-group-item-text">
                         @{{ email }} <br/>
@@ -120,6 +120,8 @@
         var template;
         var html;
 
+        var users_selected = [];
+
         function showUser(index, user) {
             source   = $('#template-user').html();
             template = Handlebars.compile(source);
@@ -128,6 +130,22 @@
 
             $(':checkbox').radiocheck();
         }
+        
+        function removeUsers() {
+            var payload = {
+                '_token': '{{ csrf_token() }}',
+                'users' : users_selected
+            };
+
+            $.ajax({
+                type: "DELETE",
+                data: payload,
+                url: '/form/{{ $form->id }}/share',
+                always: function( worked ) {
+                    window.location = '/form/{{ $form->id }}/share';
+                }
+            });
+        }
 
         $( document ).ready(function() {
 
@@ -135,6 +153,21 @@
                 showUser( {{ $index }}, {!! json_encode($user) !!} );
             @endforeach
 
+            $(':checkbox').on('change.radiocheck', function() {
+                var count_before = users_selected.length;
+                var user_selected = $(this).attr('data-user-id');
+
+                users_selected = jQuery.grep(users_selected, function(value) {
+                    return value != user_selected;
+                });
+
+                if (count_before == users_selected.length){
+                    users_selected.push(user_selected);
+                }
+            });
+
         });
+
+
     </script>
 @endsection
