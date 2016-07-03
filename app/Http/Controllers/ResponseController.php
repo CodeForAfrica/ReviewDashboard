@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Response;
+use App\Review;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -56,7 +57,7 @@ class ResponseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $response = Response::findOrFail($id);
 
@@ -70,9 +71,19 @@ class ResponseController extends Controller
             $next_id = $response->form->responses()->where('id', '<', $response->id)->min('id');
         }
 
+        $review = $response->reviews()->where('user_id', $request->user()->id )->first();
+
+        if ( !$review ) {
+            $review = new Review;
+            $review->response_id = $response->id;
+            $review->user_id     = $request->user()->id;
+            $review->save();
+        }
+
         $data = array(
             'response' => $response,
             'form'     => $response->form,
+            'review'   => $review,
             'prev_id'  => $prev_id,
             'next_id'  => $next_id
         );
@@ -100,6 +111,10 @@ class ResponseController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $review = Review::firstOrNew(['response_id' => $id, 'user_id' => $request->user()->id]);
+        $review->feedback  = $request->input('reviews');
+        $review->save();
+        return 1;
     }
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Form extends Model
 {
-    //
+
     /**
      * The users that belong to the form.
      */

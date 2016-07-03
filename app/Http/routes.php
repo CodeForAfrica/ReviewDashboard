@@ -37,11 +37,11 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/form/{id}/ratings/config', 'FormController@showRatingsConfig');
     Route::patch('/form/{id}/ratings/config', 'FormController@updateRatingsConfig');
-    
+
     Route::resource('/form', 'FormController');
 
     Route::resource('/response', 'ResponseController', ['only' => [
-        'show'
+        'show', 'update'
     ]]);
 
     Route::get('/profile', 'ProfileController@showProfile');

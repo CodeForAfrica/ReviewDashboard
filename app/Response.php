@@ -21,6 +21,14 @@ class Response extends Model
         return $this->belongsTo('App\Form');
     }
 
+    /**
+     * Get the reviews that have been given to this response.
+     */
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
 
     /**
      * Get the response's data

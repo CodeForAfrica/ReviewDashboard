@@ -13,7 +13,7 @@
                         @if( $form->import_status == 2 )
                             <p>
                                 <a href="/form/{{ $form->id }}/ratings/config" class="btn btn-block btn-sm btn-primary">
-                                    <i class="fa fa-btn fa-cogs"></i> Ratings Config
+                                    <i class="fa fa-btn fa-cogs"></i> Review Config
                                 </a>
                             </p>
                         @endif

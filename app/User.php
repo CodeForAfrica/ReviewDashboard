@@ -34,6 +34,14 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Form');
     }
 
+    /**
+     * Get the reviews this user has created.
+     */
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
 
     /**
      * Get the user's Google access token.
