@@ -19,7 +19,7 @@ class Form extends Model
          * 2 - Reviewer
          */
         
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withPivot('role_id')->withTimestamps();
     }
 
     /**

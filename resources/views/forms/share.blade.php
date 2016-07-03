@@ -105,7 +105,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox">
-                    <h5 class="list-group-item-heading">@{{ name }} <small>Admin</small></h5>
+                    <h5 class="list-group-item-heading">@{{ name }} <small>@{{ role }}</small></h5>
                     <p class="list-group-item-text">
                         @{{ email }} <br/>
                         <small>@{{ reviews_done }} reviews done</small>

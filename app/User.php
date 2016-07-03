@@ -31,7 +31,7 @@ class User extends Authenticatable
      */
     public function forms()
     {
-        return $this->belongsToMany('App\Form');
+        return $this->belongsToMany('App\Form')->withPivot('role_id')->withTimestamps();
     }
 
     /**

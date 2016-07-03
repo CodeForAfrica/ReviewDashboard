@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
@@ -224,7 +225,17 @@ class FormController extends Controller
 
             $users[$index]->reviews_done = Review::where('user_id', $user->id)->where('form_id', $form->id)->count();
 
-            $users[$index]->role = 'Admin';
+            switch (DB::table('form_user')->where('user_id', $user->id)->where('form_id', $form->id)->first()->role_id) {
+                case 1:
+                    $users[$index]->role = 'Administrator';
+                    break;
+                case 2:
+                    $users[$index]->role = 'Reviewer';
+                    break;
+                default:
+                    $users[$index]->role = 'Nothing';
+                    break;
+            }
         }
 
         $data = array(
@@ -267,4 +278,6 @@ class FormController extends Controller
 
         return redirect('/form/'.$id.'/share');
     }
+    
+    
 }
