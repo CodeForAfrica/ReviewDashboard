@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="top: 53px;;">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="top: 53px; z-index: 20;">
         <div class="container-fluid">
             <div class="navbar-header">
 

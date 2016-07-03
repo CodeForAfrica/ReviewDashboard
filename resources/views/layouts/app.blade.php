@@ -51,7 +51,7 @@
 
 </head>
 <body id="app-layout">
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" style="z-index: 30;">
         <div class="container">
             <div class="navbar-header">
 
@@ -114,8 +114,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
         
     <script type="text/javascript">
-        $(':checkbox').radiocheck();
-        $('select').select2({dropdownCssClass: 'dropdown-inverse'});
+        $( document ).ready(function() {
+            $(':checkbox').radiocheck();
+            $('select').select2({dropdownCssClass: 'dropdown-inverse'});
+        });
     </script>
 
     @yield('javascript')

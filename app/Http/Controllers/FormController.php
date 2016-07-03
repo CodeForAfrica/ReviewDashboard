@@ -95,16 +95,27 @@ class FormController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         //
         $form = Form::findOrFail($id);
 
         $responses = $form->responses()->paginate(10);
+        $role = 'Nothing';
+        
+        switch (DB::table('form_user')->where('user_id', $request->user()->id)->where('form_id', $form->id)->first()->role_id) {
+            case 1:
+                $role = 'Administrator';
+                break;
+            case 2:
+                $role = 'Reviewer';
+                break;
+        }
 
         $data = array(
             'form'      => $form,
-            'responses' => $responses
+            'responses' => $responses,
+            'role'      => $role
         );
 
         return view('forms.view',$data);

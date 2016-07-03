@@ -6,38 +6,42 @@
             <div class="col-md-10 col-md-offset-1">
                 <h3 class="page-header">
                     {{ $form->title }}
-                    <small>. <a href="{{ $form->responses_url }}" target="_blank">Responses Source</a></small>
+                    @if( $role == 'Administrator' )
+                        <small>. <a href="{{ $form->responses_url }}" target="_blank">Responses Source</a></small>
+                    @endif
                 </h3>
                 <div class="row">
                     <div class="col-sm-8">
                         <p>{{ $form->description }}</p>
                     </div>
-                    <div class="col-sm-2 text-left">
-                        <p>
-                            <a href="/form/{{ $form->id }}/share" class="btn btn-block btn-sm btn-info">
-                                <i class="fa fa-btn fa-users"></i> Share
-                            </a>
-                        </p>
-                        @if( $form->import_status == 2 )
+                    @if( $role == 'Administrator' )
+                        <div class="col-sm-2 text-left">
                             <p>
-                                <a href="/form/{{ $form->id }}/ratings/config" class="btn btn-block btn-sm btn-primary">
-                                    <i class="fa fa-btn fa-cogs"></i> Review Config
+                                <a href="/form/{{ $form->id }}/share" class="btn btn-block btn-sm btn-info">
+                                    <i class="fa fa-btn fa-users"></i> Share
                                 </a>
                             </p>
-                        @endif
-                    </div> <!-- /.col-sm-3 -->
-                    <div class="col-sm-2 text-left">
-                        <p>
-                            <a href="/form/{{ $form->id }}/edit" class="btn btn-block btn-sm btn-warning">
-                                <i class="fa fa-btn fa-pencil"></i> Edit
-                            </a>
-                        </p>
-                        <p>
-                            <a href="javascript:deleteForm('{{ $form->id }}');" class="btn btn-block btn-sm btn-danger">
-                                <i class="fa fa-btn fa-trash"></i> Delete
-                            </a>
-                        </p>
-                    </div> <!-- /.col-sm-3 -->
+                            @if( $form->import_status == 2 )
+                                <p>
+                                    <a href="/form/{{ $form->id }}/ratings/config" class="btn btn-block btn-sm btn-primary">
+                                        <i class="fa fa-btn fa-cogs"></i> Review Config
+                                    </a>
+                                </p>
+                            @endif
+                        </div> <!-- /.col-sm-2 -->
+                        <div class="col-sm-2 text-left">
+                            <p>
+                                <a href="/form/{{ $form->id }}/edit" class="btn btn-block btn-sm btn-warning">
+                                    <i class="fa fa-btn fa-pencil"></i> Edit
+                                </a>
+                            </p>
+                            <p>
+                                <a href="javascript:deleteForm('{{ $form->id }}');" class="btn btn-block btn-sm btn-danger">
+                                    <i class="fa fa-btn fa-trash"></i> Delete
+                                </a>
+                            </p>
+                        </div> <!-- /.col-sm-2 -->
+                    @endif
                 </div> <!-- /.row -->
                 <hr/>
 

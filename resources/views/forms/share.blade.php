@@ -74,10 +74,8 @@
                             <label class="col-sm-3 control-label">Permissions:</label>
                             <div class="col-sm-8">
                                 <select name="role_id" class="form-control select select-primary select-block mbl">
-                                    <optgroup>
-                                        <option value="2">Reviewer</option>
-                                        <option value="1">Administrator</option>
-                                    </optgroup>
+                                    <option value="2">Reviewer</option>
+                                    <option value="1">Administrator</option>
                                 </select>
                             </div>
                         </div>
