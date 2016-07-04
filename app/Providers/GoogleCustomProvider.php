@@ -97,7 +97,7 @@ class GoogleCustomProvider extends AbstractProvider implements ProviderInterface
             ],
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token['access_token'],//added ['access_token'] to get only token string
+                'Authorization' => 'Bearer ' . $token,
             ],
         ] );
 
