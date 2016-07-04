@@ -5,6 +5,8 @@ server {
   access_log  /var/log/nginx/{{ .APP }}-access.log;
   error_log   /var/log/nginx/{{ .APP }}-error.log;
 
+  root public;
+
   # set a custom header for requests
   add_header X-Served-By www-ec2-01;
 
@@ -25,8 +27,6 @@ server {
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header X-Forwarded-Port $server_port;
     proxy_set_header X-Request-Start $msec;
-
-    root {{ .DOKKU_ROOT }}/{{ .APP }}/public;
   }
   include {{ .DOKKU_ROOT }}/{{ .APP }}/nginx.conf.d/*.conf;
 }
