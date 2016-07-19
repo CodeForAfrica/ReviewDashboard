@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Validator;
@@ -95,10 +96,15 @@ class AuthController extends Controller
      */
     public function handleProviderCallback()
     {
+
         $google = Socialite::driver('google')->user();
 
+        $token['access_token'] = $google->token;
+        $token['created']      = time();
+        $token['expires_in']   = $google->expiresIn;
+
         $user = Auth::user();
-        $user->google_token = $google->token;
+        $user->google_token = $token;
         $user->save();
 
         return redirect('profile');

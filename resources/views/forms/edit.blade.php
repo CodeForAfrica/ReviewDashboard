@@ -39,9 +39,9 @@
             $.ajax({
                 type: "PATCH",
                 data: {
-                    'title': $("[name='title").val(),
-                    'description': $("[name='description").val(),
-                    'responses_url': $("[name='responses_url").val(),
+                    'title': $("[name='title']").val(),
+                    'description': $("[name='description']").val(),
+                    'responses_url': $("[name='responses_url']").val(),
                     '_token': '{{ csrf_token() }}'
                 },
                 url: '/form/' + id, //resource
