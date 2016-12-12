@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
 
         $data = array(
-            'forms' => $request->user()->forms
+            'forms' => $request->user()->forms()->orderBy('updated_at', 'desc')->get()
         );
         return view('home', $data);
     }
