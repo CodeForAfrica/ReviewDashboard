@@ -41,6 +41,7 @@ class ImportResponses extends Job implements ShouldQueue
     {
         echo "--- IMPORT RESPONSES | START: ".$this->attempts()." ---\n";
         echo "[".Carbon::now()."] Starting up.\n";
+        echo "FORM_ID: " . $this->form->id . "\n";
 
         $this->downloadFile();
         $this->processResponses();
@@ -64,17 +65,38 @@ class ImportResponses extends Job implements ShouldQueue
         $fileId = parse_url($this->form->responses_url, PHP_URL_PATH);
         $fileId = str_replace(array("/spreadsheets/d/","/edit","/"), "", $fileId);
 
-        $driveService = new \Google_Service_Drive($client);
-        $responses = $driveService->files->export($fileId, 'text/csv', array(
-            'alt' => 'media' ))->getBody();
+        $sheetService = new \Google_Service_Sheets($client);
+        $spreadsheet = $sheetService->spreadsheets->get($fileId);
+
+        $sheet_name = $spreadsheet->sheets[0]->properties->title;
+        foreach ($spreadsheet->sheets as $sheet) {
+            if ($sheet->properties->title == 'SHORTLIST'){
+                $sheet_name = 'SHORTLIST';
+            }
+        }
+        $range = "'" . $sheet_name . "'!A1:"
+            . xl_rowcol_to_cell($spreadsheet->sheets[0]->properties->gridProperties->rowCount,
+                $spreadsheet->sheets[0]->properties->gridProperties->columnCount);
+
+        $responses = $sheetService->spreadsheets_values->get($fileId, $range)->getValues();
+        echo count($responses);
+        $responses_csv = '';
+        foreach ($responses as $response){
+            foreach ($response as $field){
+                $responses_csv .= '"' . addslashes($field) . '",';
+            }
+            $responses_csv = substr($responses_csv, 0, -1);
+            $responses_csv .= "\n";
+        }
+        $responses_csv = substr($responses_csv, 0, -2);
 
         // TODO: Save history of responses instead of replacing
         Storage::put(
             'responses/'.$this->form->id.'/latest.csv',
-            $responses
+            $responses_csv
         );
 
-        $this->responses = Reader::createFromString($responses);
+        $this->responses = Reader::createFromString($responses_csv);
 
         echo "[".Carbon::now()."] Download complete.\n";
     }
@@ -94,7 +116,7 @@ class ImportResponses extends Job implements ShouldQueue
                 $this->form->save();
             } else {
                 $this->form->responses()->create([
-                    'data'     => $response
+                    'data' => $response
                 ]);
             }
             $count = $index;

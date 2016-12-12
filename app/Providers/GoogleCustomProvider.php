@@ -23,7 +23,11 @@ class GoogleCustomProvider extends AbstractProvider implements ProviderInterface
     protected $scopes = [
         'https://www.googleapis.com/auth/plus.me',
         'https://www.googleapis.com/auth/plus.login',
-        'https://www.googleapis.com/auth/plus.profile.emails.read'
+        'https://www.googleapis.com/auth/plus.profile.emails.read',
+        'https://www.googleapis.com/auth/drive',
+        'https://www.googleapis.com/auth/drive.readonly',
+        'https://www.googleapis.com/auth/spreadsheets',
+        'https://www.googleapis.com/auth/spreadsheets.readonly'
     ];
 
     /**
