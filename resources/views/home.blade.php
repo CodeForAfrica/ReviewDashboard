@@ -19,6 +19,9 @@
                 @foreach($forms as $key => $form)
                     <a href="/form/{{ $form->id }}" class="list-group-item">
                         <h4 class="list-group-item-heading">{{ $form->title }}</h4>
+                        <p class="text-muted">
+                            <small>Updated: {{ \Carbon\Carbon::parse($form->updated_at)->toRfc850String() }}</small>
+                        </p>
                         <p class="list-group-item-text">{{ $form->description }}</p>
                     </a>
                 @endforeach
