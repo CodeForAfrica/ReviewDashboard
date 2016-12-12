@@ -101,6 +101,7 @@ class FormController extends Controller
         $form = Form::findOrFail($id);
 
         $responses = $form->responses()->paginate(10);
+
         $role = 'Nothing';
         
         switch (DB::table('form_user')->where('user_id', $request->user()->id)->where('form_id', $form->id)->first()->role_id) {
@@ -112,11 +113,14 @@ class FormController extends Controller
                 break;
         }
 
-        $data = array(
-            'form'      => $form,
-            'responses' => $responses,
-            'role'      => $role
-        );
+        $brief_field = 1;
+        foreach ($form->responses_headers as $index => $header){
+            if (trim($header) == 'STORY CONCEPT (short: two sentences max)'){
+                $brief_field = $index;
+            }
+        }
+
+        $data = compact('form', 'responses', 'role', 'brief_field');
 
         return view('forms.view',$data);
     }
