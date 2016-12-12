@@ -3,37 +3,23 @@
 @section('content')
     <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" style="top: 53px; z-index: 20;">
         <div class="container-fluid">
-            <div class="navbar-header">
-
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-            </div>
-
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a href="javascript:submitReview('prev')">
-                        <i class="fa fa-arrow-left fa-btn"></i> Previous Application
-                    </a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="javascript:submitReview('next')">
-                        Next Application <i class="fa fa-arrow-right fa-btn"></i>
-                    </a></li>
-                </ul>
-            </div>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="javascript:submitReview('prev')">
+                    <i class="fa fa-arrow-left fa-btn"></i> Previous Application
+                </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="javascript:submitReview('next')">
+                    Next Application <i class="fa fa-arrow-right fa-btn"></i>
+                </a></li>
+            </ul>
         </div>
     </nav>
 
     <div class="container-fluid" style="height: 100%;">
 
         <div class="row" style="height: 100%;">
-            <div class="col-sm-6 col-sm-offset-2" style="border-right: solid 1px #eee;" id="left">
+            <div class="col-sm-8 col-md-7 col-md-offset-1 col-lg-6 col-lg-offset-2" style="border-right: solid 1px #eee;" id="left">
                 <h4 class="page-header">Response <small style="color: gray;">. Form: <a href="/form/{{ $response->form->id }}">{{ $response->form->title }}</a> </small></h4>
                 @foreach( $form->responses_headers as $index => $header)
                     <p><strong>{{ $header }}</strong></p>
@@ -45,6 +31,7 @@
                         @endif
                     </p>
                 @endforeach
+                <p class="text-center text-muted"><smal>~ fin ~</smal></p>
             </div>
             <div class="col-sm-4 bg-info" id="right">
                 <div style="max-width: 350px; padding-bottom: 35px;">
