@@ -27,7 +27,7 @@
                         @if(count(count_chars($response->data[$index], 1)) == 0)
                             -
                         @else
-                            {{ $response->data[$index] }}
+                            {!! nl2br($response->data[$index]) !!}
                         @endif
                     </p>
                 @endforeach
