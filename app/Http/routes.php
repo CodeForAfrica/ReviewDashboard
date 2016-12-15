@@ -30,6 +30,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/', function () {
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            return redirect('/home');
+        }
         return view('welcome');
     });
 
