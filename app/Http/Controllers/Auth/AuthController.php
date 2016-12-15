@@ -81,12 +81,7 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('google')
-            ->scopes([
-                'https://www.googleapis.com/auth/drive.readonly',
-                'email'
-            ])
-            ->redirect();
+        return Socialite::driver('google')->redirect();
     }
 
     /**
