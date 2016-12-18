@@ -99,8 +99,6 @@ class AuthController extends Controller
         $token['expires_in']   = $google->expiresIn;
         $token['refresh_token']   = $google->refreshToken;
 
-        dd($google);
-
         $user = Auth::user();
         $user->google_token = $token;
         $user->save();
