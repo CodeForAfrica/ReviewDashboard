@@ -40,4 +40,5 @@ class Response extends Model
     {
         return json_decode($value, true);
     }
+
 }

@@ -81,7 +81,7 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->with(["access_type" => "offline", "prompt" => "consent select_account"])->redirect();
     }
 
     /**
@@ -97,6 +97,9 @@ class AuthController extends Controller
         $token['access_token'] = $google->token;
         $token['created']      = time();
         $token['expires_in']   = $google->expiresIn;
+        $token['refresh_token']   = $google->refreshToken;
+
+        dd($google);
 
         $user = Auth::user();
         $user->google_token = $token;

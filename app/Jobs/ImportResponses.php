@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Form;
-use App\Jobs\Job;
 use Carbon\Carbon;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -11,7 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use Google_Client;
 use Illuminate\Support\Facades\Storage;
-use League\Csv\Reader;
 
 
 class ImportResponses extends Job implements ShouldQueue
@@ -60,7 +58,16 @@ class ImportResponses extends Job implements ShouldQueue
 
         $client->setApplicationName('CfA_Review_Dashboard');
         $client->setDeveloperKey(env('GOOGLE_API_KEY'));
+        $client->setClientId(env('GOOGLE_ID'));
+        $client->setClientSecret(env('GOOGLE_SECRET'));
+        $client->setRedirectUri(env('GOOGLE_REDIRECT'));
         $client->setAccessToken($this->form->users[0]->google_token);
+
+        if ($client->isAccessTokenExpired()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $this->form->users[0]->google_token = $client->getAccessToken();
+            $this->form->users[0]->save();
+        }
 
         $fileId = parse_url($this->form->responses_url, PHP_URL_PATH);
         $fileId = str_replace(array("/spreadsheets/d/","/edit","/"), "", $fileId);
@@ -79,11 +86,11 @@ class ImportResponses extends Job implements ShouldQueue
                 $spreadsheet->sheets[0]->properties->gridProperties->columnCount);
 
         $responses = $sheetService->spreadsheets_values->get($fileId, $range)->getValues();
-        echo count($responses);
+
         $responses_csv = '';
         foreach ($responses as $response){
             foreach ($response as $field){
-                $responses_csv .= '"' . addslashes($field) . '",';
+                $responses_csv .= json_encode($field) . ',';
             }
             $responses_csv = substr($responses_csv, 0, -1);
             $responses_csv .= "\n";
@@ -96,7 +103,7 @@ class ImportResponses extends Job implements ShouldQueue
             $responses_csv
         );
 
-        $this->responses = Reader::createFromString($responses_csv);
+        $this->responses = $responses;
 
         echo "[".Carbon::now()."] Download complete.\n";
     }
