@@ -113,12 +113,15 @@ class FormController extends Controller
                 break;
         }
 
-        $brief_field = 1;
-        foreach ($form->responses_headers as $index => $header){
-            if (trim($header) == 'STORY CONCEPT (short: two sentences max)'){
-                $brief_field = $index;
+        if ($form->import_status == 2) {
+            $brief_field = 1;
+            foreach ($form->responses_headers as $index => $header){
+                if (trim($header) == 'STORY CONCEPT (short: two sentences max)'){
+                    $brief_field = $index;
+                }
             }
         }
+
 
         $data = compact('form', 'responses', 'role', 'brief_field');
 
