@@ -114,7 +114,7 @@ class FormController extends Controller
         }
 
         if ($form->import_status == 2) {
-            $brief_field = 1;
+            $brief_field = 0;
             foreach ($form->responses_headers as $index => $header){
                 if (trim($header) == 'STORY CONCEPT (short: two sentences max)'){
                     $brief_field = $index;
