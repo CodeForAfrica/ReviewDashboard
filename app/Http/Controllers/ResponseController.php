@@ -7,6 +7,7 @@ use App\Review;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Misd\Linkify\Linkify;
 
 class ResponseController extends Controller
 {
@@ -81,12 +82,15 @@ class ResponseController extends Controller
             $review->save();
         }
 
+        $linkify = new Linkify(array('attr' => array('target' => '_blank', 'rel' => 'noreferrer noopener')));
+
         $data = array(
             'response' => $response,
             'form'     => $response->form,
             'review'   => $review,
             'prev_id'  => $prev_id,
-            'next_id'  => $next_id
+            'next_id'  => $next_id,
+            'linkify'  => $linkify
         );
         return view('response', $data);
     }
