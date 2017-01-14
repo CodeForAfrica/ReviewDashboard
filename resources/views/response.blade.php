@@ -22,6 +22,10 @@
             <div class="col-sm-8 col-md-7 col-md-offset-1 col-lg-6 col-lg-offset-2" style="border-right: solid 1px #eee;" id="left">
                 <h4 class="page-header">Response <small style="color: gray;">. Form: <a href="/form/{{ $response->form->id }}">{{ $response->form->title }}</a> </small></h4>
                 @foreach( $form->responses_headers as $index => $header)
+                    @if($header == 'WHY impactAFRICA SHORTLISTED THIS PROJECT:')
+                        <br/>
+                        <div class="alert alert-info">
+                    @endif
                     <p><strong>{{ $header }}</strong></p>
                     <p>
                         @if(count(count_chars($response->data[$index], 1)) == 0)
@@ -30,6 +34,9 @@
                             {!! nl2br($response->data[$index]) !!}
                         @endif
                     </p>
+                    @if($header == 'WHY impactAFRICA SHORTLISTED THIS PROJECT:')
+                        </div>
+                    @endif
                 @endforeach
                 <p class="text-center text-muted"><smal>~ fin ~</smal></p>
             </div>
