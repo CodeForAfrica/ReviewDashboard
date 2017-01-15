@@ -6,7 +6,7 @@
 
 <p>You have two weeks, from today (Sunday, January 15, 2017) to score the projects. Judging closes at midnight, Southern African Standard Time (SAST), on Sunday, January 29, 2017.</p>
 
-<p>Don’t hesitate to email us on innovateAFRICA@codeforafrica.org if you have any questions.</p>
+<p>Don’t hesitate to email us on <a href="mailto:jury@innovateafrica.fund">jury@innovateafrica.fund</a> if you have any questions.</p>
 
 <p>Have fun!</p>
 
