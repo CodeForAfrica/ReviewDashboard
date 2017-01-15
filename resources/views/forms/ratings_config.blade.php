@@ -12,7 +12,7 @@
                     <dt>Form</dt>
                     <dd><a href="/form/{{ $form->id }}">{{ $form->title }}</a></dd>
                     <dt>Description</dt>
-                    <dd>{{ $form->description }}</dd>
+                    <dd>{!! str_limit(nl2br($linkify->process($form->description)), 100) !!}</dd>
                 </dl>
 
                 <hr/>

@@ -208,8 +208,9 @@ class FormController extends Controller
     public function showReviewConfig($id)
     {
         $form = Form::findOrFail($id);
+        $linkify = new Linkify(array('attr' => array('target' => '_blank', 'rel' => 'noreferrer noopener')));
 
-        return view('forms.ratings_config', compact('form'));
+        return view('forms.ratings_config', compact('form', 'linkify'));
     }
 
     /**

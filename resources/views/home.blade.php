@@ -22,7 +22,7 @@
                         <p class="text-muted">
                             <small>Updated: {{ \Carbon\Carbon::parse($form->updated_at)->toRfc850String() }}</small>
                         </p>
-                        <p class="list-group-item-text">{{ $form->description }}</p>
+                        <p class="list-group-item-text">{!! str_limit(nl2br($linkify->process($form->description)), 200) !!}</p>
                     </a>
                 @endforeach
             </div>

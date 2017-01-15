@@ -22,6 +22,7 @@
         body {
             font-family: 'Lato';
             padding-top: 53px;
+            word-wrap: break-word;
         }
 
         .fa-btn {
