@@ -162,15 +162,22 @@ class FormController extends Controller
         $form->title = $request->input('title');
         $form->description = $request->input('description');
 
-        // TODO: Check if responses url has changed, new import if so.
+        // For checks
+        $responses_url_old = $form->responses_url;
         $form->responses_url = $request->input('responses_url');
 
         $form->save();
 
-        // TODO: If url changed do:
-        $form->import_status = 1;
-        $form->save();
-        $this->dispatch(new ImportResponses($form));
+        $refresh_form = $request->input('refresh_form');
+        if ($responses_url_old != $request->input('responses_url')) {
+            $refresh_form = 1;
+        }
+
+        if ($refresh_form == 1) {
+            $form->import_status = 1;
+            $form->save();
+            $this->dispatch(new ImportResponses($form));
+        }
 
         return 1;
     }

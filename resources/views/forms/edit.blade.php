@@ -14,7 +14,11 @@
                     </div>
                     <div class="form-group">
                         {{-- TODO: Use Google Picker API (https://goo.gl/Z9rzcv)--}}
-                        <label for="url">Responses URL (Google Sheets):</label>
+                        <label for="url">Responses URL (Google Sheets):
+                            <span class="refresh-form" data-toggle="tooltip" data-placement="top" title="Will NOT refresh responses data">
+                                <i class="fa fa-dot-circle-o"></i>
+                            </span>
+                        </label>
                         <input type="text" class="form-control" name="responses_url" placeholder="https://docs.google.com/spreadsheets/d/13Wxta0N3WrKMUp2XeVj0L6l_V6beGo4OQ8PSM_SHCU4/edit#gid=0" value="{{ $form->responses_url or '' }}">
                     </div>
                     <hr/>
@@ -31,6 +35,14 @@
 
 @section('javascript')
     <script type="text/javascript">
+
+        // On click, it will queue for download
+        var refresh_form = 0;
+        var refresh_form_force = 0;
+        $('[name="responses_url"]').focus(function () { refreshForm(); });
+
+        var responses_url_old = '{{ $form->responses_url or '' }}';
+
         function updateForm(id) {
 
             // TODO: Check if already running (in case of "Save" clicked twice)
@@ -42,13 +54,34 @@
                     'title': $("[name='title']").val(),
                     'description': $("[name='description']").val(),
                     'responses_url': $("[name='responses_url']").val(),
+                    'refresh_form': refresh_form,
                     '_token': '{{ csrf_token() }}'
                 },
-                url: '/form/' + id, //resource
-                success: function(affectedRows) {
-                    if (affectedRows > 0) window.location = '/form/'+id;
+                url: '/form/' + id,
+                success: function() {
+                    window.location = '/form/' + id;
                 }
             });
         }
+
+        function refreshForm(){
+            if (responses_url_old !== $("[name='responses_url']").val()){
+                refresh_form_force = 1;
+            } else {
+                refresh_form_force = 0;
+            }
+            if(refresh_form == 0 || refresh_form_force == 1){
+                refresh_form = 1;
+                $('.refresh-form').html('<i class="fa fa-download"></i>');
+                $('.refresh-form').attr('title', 'Will refresh responses data').tooltip('fixTitle');
+            } else {
+                refresh_form = 0;
+                $('.refresh-form').html('<i class="fa fa-dot-circle-o"></i>');
+                $('.refresh-form').attr('title', 'Will NOT refresh responses data').tooltip('fixTitle');
+            };
+        };
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 @endsection
