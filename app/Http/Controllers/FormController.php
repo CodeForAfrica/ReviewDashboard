@@ -15,6 +15,7 @@ use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Misd\Linkify\Linkify;
 
 class FormController extends Controller
 {
@@ -122,8 +123,10 @@ class FormController extends Controller
             }
         }
 
+        $linkify = new Linkify(array('attr' => array('target' => '_blank', 'rel' => 'noreferrer noopener')));
 
-        $data = compact('form', 'responses', 'role', 'brief_field');
+
+        $data = compact('form', 'responses', 'role', 'brief_field', 'linkify');
 
         return view('forms.view',$data);
     }

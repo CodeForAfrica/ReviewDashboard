@@ -16,7 +16,7 @@
                         @endif
                             <strong><em>Updated:</em></strong> {{ \Carbon\Carbon::parse($form->updated_at)->toRfc850String() }}
                         </small></p>
-                        <p>{{ $form->description }}</p>
+                        <p>{!! nl2br($linkify->process($form->description)) !!}</p>
                     </div>
                     @if( $role == 'Administrator' )
                         <div class="col-sm-6 col-md-4">
