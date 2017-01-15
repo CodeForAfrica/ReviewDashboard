@@ -22,7 +22,7 @@
             <div class="col-sm-8 col-md-7 col-md-offset-1 col-lg-6 col-lg-offset-2" style="border-right: solid 1px #eee;" id="left">
                 <h4 class="page-header">Response <small style="color: gray;">. Form: <a href="/form/{{ $response->form->id }}">{{ $response->form->title }}</a> </small></h4>
                 @foreach( $form->responses_headers as $index => $header)
-                    @if($header == 'WHY impactAFRICA SHORTLISTED THIS PROJECT:')
+                    @if($header == 'WHY impactAFRICA SHORTLISTED THIS PROJECT:' || $header == 'Comments from the innovateAFRICA Technical Advisory Committee:')
                         <br/>
                         <div class="alert alert-info">
                     @endif
@@ -34,7 +34,7 @@
                             {!! nl2br($linkify->process($response->data[$index])) !!}
                         @endif
                     </p>
-                    @if($header == 'WHY impactAFRICA SHORTLISTED THIS PROJECT:')
+                    @if($header == 'WHY impactAFRICA SHORTLISTED THIS PROJECT:' || $header == 'Comments from the innovateAFRICA Technical Advisory Committee:')
                         </div>
                     @endif
                 @endforeach
