@@ -52,6 +52,7 @@ Route::group(['middleware' => 'web'], function () {
     ]]);
 
     Route::get('/profile', 'ProfileController@showProfile');
+    Route::post('/profile', 'ProfileController@updateProfile');
 
     Route::get('/auth/google/redirect',   ['as' => 'social.redirect',   'uses' => 'Auth\AuthController@redirectToProvider']);
     Route::get('/auth/google/handle',     ['as' => 'social.handle',     'uses' => 'Auth\AuthController@handleProviderCallback']);

@@ -37,6 +37,12 @@ class ProfileController extends Controller
             // TODO: Set up validator
 
             // TODO: Save inputs
+            $user = $request->user();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->save();
         }
+
+        return redirect('/profile');
     }
 }

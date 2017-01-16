@@ -8,18 +8,18 @@
                     <h3>Profile</h3>
                 </div>
                 <!-- TODO: Point form save to somewhere -->
-                <form>
+                <form method="POST">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label text-right">Name:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name" placeholder="Name" value="{{ $user->name }}">
+                            <input name="name" type="text" class="form-control" id="name" placeholder="Name" value="{{ $user->name }}">
                         </div>
                     </div>
                     <br/> <br/>
                     <div class="form-group">
                         <label for="email" class="col-sm-2 control-label text-right">Email:</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="email" placeholder="Email" value="{{ $user->email }}">
+                            <input name="email" type="email" class="form-control" id="email" placeholder="Email" value="{{ $user->email }}">
                         </div>
                     </div>
                     <br/> <br/>
