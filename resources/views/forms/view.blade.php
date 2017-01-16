@@ -8,7 +8,11 @@
                     {{ $form->title }}
                 </h3>
                 <div class="row">
-                    <div class="col-sm-6 col-md-8">
+                    @if( $role == 'Administrator' )
+                        <div class="col-sm-6 col-md-8">
+                    @else
+                        <div class="col-sm-12">
+                    @endif
                         <p class="text-muted"><small>
                         @if( $role == 'Administrator' )
                             <strong><em>Source:</em></strong> <a href="{{ $form->responses_url }}" target="_blank">

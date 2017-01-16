@@ -261,6 +261,9 @@ class FormController extends Controller
                 case 2:
                     $users[$index]->role = 'Reviewer';
                     break;
+                case 3:
+                    $users[$index]->role = 'Viewer';
+                    break;
                 default:
                     $users[$index]->role = 'Nothing';
                     break;

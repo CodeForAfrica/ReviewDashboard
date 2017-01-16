@@ -74,7 +74,9 @@ class ResponseController extends Controller
 
         $review = $response->reviews()->where('user_id', $request->user()->id )->first();
 
-        if ( !$review ) {
+        $user_role = $request->user()->forms()->where('form_id', $response->form->id)->first()->pivot->role_id;
+
+        if ( !$review && $user_role != 3 ) {
             $review = new Review;
             $review->response_id = $response->id;
             $review->user_id     = $request->user()->id;
@@ -85,12 +87,13 @@ class ResponseController extends Controller
         $linkify = new Linkify(array('attr' => array('target' => '_blank', 'rel' => 'noreferrer noopener')));
 
         $data = array(
-            'response' => $response,
-            'form'     => $response->form,
-            'review'   => $review,
-            'prev_id'  => $prev_id,
-            'next_id'  => $next_id,
-            'linkify'  => $linkify
+            'response'  => $response,
+            'form'      => $response->form,
+            'review'    => $review,
+            'prev_id'   => $prev_id,
+            'next_id'   => $next_id,
+            'user_role' => $user_role,
+            'linkify'   => $linkify
         );
         return view('response', $data);
     }

@@ -47,11 +47,17 @@
                     <p class="text-center" id="no-config" style="display: none;">
                         <em>There is nothing here yet. <a href="/form/{{ $form->id }}/ratings/config">Add a new config</a> to get started.</em>
                     </p>
+                    <p class="text-center" id="user-reviewer" style="display: none;">
+                        <em>There is nothing here yet. The form owner will provide this soon.</em>
+                    </p>
+                    <p class="text-center" id="user-viewer" style="display: none;">
+                        <em>You only have view permissions for this form.</em>
+                    </p>
 
                     <div class="reviews-panel"></div>
 
                     <hr/>
-                    <div class="text-right">
+                    <div class="text-right submit-buttons">
                         <a href="/form/{{ $response->form->id }}" class="btn btn-default btn-lg">Cancel</a>
                         <i style="width: 7px; height: 1px;" class="fa"> </i>
                         <a href="javascript:submitReview('next');" class="btn btn-primary btn-lg btn-wide">Save</a>
@@ -261,8 +267,15 @@
 
         $( document ).ready(function() {
 
-            @if(count($form->ratings_config) == 0)
+            @if($user_role == 3)
+                $('#user-viewer').show();
+                $('.submit-buttons').hide();
+            @elseif($user_role == 2)
+                $('#user-reviewer').show();
+                $('.submit-buttons').hide();
+            @elseif(count($form->ratings_config) == 0)
                 $('#no-config').show();
+                $('.submit-buttons').hide();
             @else
                 feedback = {!! json_encode( $review->feedback ) !!};
                 if ( feedback == null) {

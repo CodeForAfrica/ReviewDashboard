@@ -33,6 +33,7 @@
                                         SET PERMISSIONS <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu">
+                                        <li><a href="#">Viewer</a></li>
                                         <li><a href="#">Reviewer</a></li>
                                         <li><a href="#">Administrator</a></li>
                                     </ul>
@@ -75,6 +76,7 @@
                             <div class="col-sm-8">
                                 <select name="role_id" class="form-control select select-primary select-block mbl">
                                     <option value="2">Reviewer</option>
+                                    <option value="3">Viewer</option>
                                     <option value="1">Administrator</option>
                                 </select>
                             </div>

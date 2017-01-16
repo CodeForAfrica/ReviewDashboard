@@ -17,6 +17,7 @@ class Form extends Model
          * -----
          * 1 - Admin
          * 2 - Reviewer
+         * 3 - Viewer
          */
         
         return $this->belongsToMany('App\User')->withPivot('role_id')->withTimestamps();
@@ -71,5 +72,15 @@ class Form extends Model
     public function setRatingsConfigAttribute($value)
     {
         $this->attributes['ratings_config'] = json_encode($value);
+    }
+
+
+
+    public function getTopTenResponses()
+    {
+        $sorted_id = [];
+        foreach ($this->reviews as $review) {
+            // TODO: sort reviews
+        };
     }
 }
