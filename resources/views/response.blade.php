@@ -20,7 +20,7 @@
 
         <div class="row" style="height: 100%;">
             <div class="col-sm-8 col-md-7 col-md-offset-1 col-lg-6 col-lg-offset-2" style="border-right: solid 1px #eee;" id="left">
-                <h4 class="page-header">Response <small style="color: gray;">. Form: <a href="/form/{{ $response->form->id }}">{{ $response->form->title }}</a> </small></h4>
+                <h4 class="page-header">Application <small style="color: gray;">. Form: <a href="/form/{{ $response->form->id }}">{{ $response->form->title }}</a> </small></h4>
                 @foreach( $form->responses_headers as $index => $header)
                     @if($header == 'WHY impactAFRICA SHORTLISTED THIS PROJECT:' || $header == 'Comments from the innovateAFRICA Technical Advisory Committee:')
                         <br/>
