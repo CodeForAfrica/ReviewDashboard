@@ -270,7 +270,7 @@
             @if($user_role == 3)
                 $('#user-viewer').show();
                 $('.submit-buttons').hide();
-            @elseif($user_role == 2)
+            @elseif($user_role == 2 && count($form->ratings_config) == 0)
                 $('#user-reviewer').show();
                 $('.submit-buttons').hide();
             @elseif(count($form->ratings_config) == 0)
