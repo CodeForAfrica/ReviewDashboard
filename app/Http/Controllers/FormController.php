@@ -258,7 +258,11 @@ class FormController extends Controller
                 $do_not_count = false;
                 if (count((array) $review->feedback) == 0) { $do_not_count = true; };
                 foreach ((array)$review->feedback as $feedback_index => $feedback){
-                    if ($form->ratings_config[$feedback_index]['required'] == 'yes' && trim($feedback) == ''){ $do_not_count = true; }
+                    if (trim($form->ratings_config[$feedback_index]['title']) == 'NEED TO RECUSE YOURSELF?'){
+                        if ($feedback == 'yes') { $do_not_count = false; break; };
+                    }
+                    if ($form->ratings_config[$feedback_index]['required'] == 'yes'
+                        && trim($feedback) == ''){ $do_not_count = true; }
                 }
                 if (!$do_not_count) { $reviews_done++ ; };
             }
