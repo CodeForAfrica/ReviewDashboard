@@ -110,7 +110,15 @@
                                             </td>
                                             <td>{{ $response->data[$brief_field] }}</td>
                                             <td class="text-center">
-                                                {{ $response->reviews($user) ? 'Done' : 'Not' }}
+                                                @if($response->reviews($user))
+                                                    @if($response->reviews($user)->is_complete())
+                                                        Done
+                                                    @else
+                                                        Not
+                                                    @endif
+                                                @else
+                                                    Not
+                                                @endif
                                                 {{-- TODO: Check status of the response; whether reviewed et. al. --}}
                                             </td>
                                         </tr>

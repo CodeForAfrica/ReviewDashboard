@@ -42,23 +42,16 @@ class Form extends Model
         if ($user){
             foreach ($responses->get() as $response){
                 $review = $response->reviews()->where('user_id', $user->id)->first();
-                if (!$review){
-                    array_push($responses->reviewed_not, $response);
-                } else {
-                    $is_reviewed = false;
-                    foreach ((array)$review->feedback as $feedback_index => $feedback){
-                        if (trim($this->ratings_config[$feedback_index]['title']) == 'NEED TO RECUSE YOURSELF?'){
-                            if ($feedback == 'yes') { $is_reviewed = true; break; };
-                        }
-                        if ($this->ratings_config[$feedback_index]['required'] == 'yes'
-                            && trim($feedback) == ''){ $is_reviewed = false; }
-                    }
-                    if ($is_reviewed){
+                if ($review != null){
+                    if ($review->is_complete()){
                         array_push($responses->reviewed, $response);
                     } else {
                         array_push($responses->reviewed_not, $response);
                     }
+                } else {
+                    array_push($responses->reviewed_not, $response);
                 }
+
             }
         }
         return $responses;

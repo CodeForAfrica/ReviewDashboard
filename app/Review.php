@@ -63,4 +63,18 @@ class Review extends Model
     {
         $this->attributes['feedback'] = json_encode($value);
     }
+
+    public function is_complete()
+    {
+        $is_complete = true;
+        $ratings_config = $this->form->ratings_config;
+        foreach ((array)$this->feedback as $index => $feedback){
+            if (trim($ratings_config[$index]['title']) == 'NEED TO RECUSE YOURSELF?'){
+                if ($feedback == 'yes') { $is_complete = true; break; };
+            };
+            if ($ratings_config[$index]['required'] == 'yes'
+                && trim($feedback) == ''){ $is_complete = false; };
+        }
+        return $is_complete;
+    }
 }
