@@ -170,8 +170,8 @@
 
         $('#reviews-summary-table').DataTable({
             scrollY: 400,
-            paging: false,
-            responsive: true
+            scrollX: true,
+            paging: false
         });
 
     });
