@@ -68,6 +68,7 @@ class Review extends Model
     {
         $is_complete = true;
         $ratings_config = $this->form->ratings_config;
+        if (count((array) $this->feedback) == 0) { $is_complete = false; };
         foreach ((array)$this->feedback as $index => $feedback){
             if (trim($ratings_config[$index]['title']) == 'NEED TO RECUSE YOURSELF?'){
                 if ($feedback == 'yes') { $is_complete = true; break; };
