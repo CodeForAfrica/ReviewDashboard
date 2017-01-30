@@ -172,6 +172,7 @@
             scrollY: 400,
             paging: false
         });
+        $('#reviews-summary-table').DataTable().columns.adjust().draw();
 
     });
 
