@@ -38,6 +38,7 @@ class Form extends Model
 
         $responses->reviewed = [];
         $responses->reviewed_not = [];
+        $responses->reviewed_not_urls = [];
 
         if ($user){
             foreach ($responses->get() as $response){
@@ -47,9 +48,11 @@ class Form extends Model
                         array_push($responses->reviewed, $response);
                     } else {
                         array_push($responses->reviewed_not, $response);
+                        array_push($responses->reviewed_not_urls, url('/response/'.$response->id));
                     }
                 } else {
                     array_push($responses->reviewed_not, $response);
+                    array_push($responses->reviewed_not_urls, url('/response/'.$response->id));
                 }
 
             }
