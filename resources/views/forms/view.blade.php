@@ -20,7 +20,8 @@
                         @endif
                             <strong><em>Updated:</em></strong> {{ \Carbon\Carbon::parse($form->updated_at)->toRfc850String() }}
                         </small></p>
-                        <p>{!! nl2br($linkify->process($form->description)) !!}</p>
+                        <p  class="collapse" id="collapseDescription">{!! nl2br($linkify->process($form->description)) !!}</p>
+                        <p><a data-toggle="collapse" href="#collapseDescription" aria-expanded="false" aria-controls="collapseExample">+ Description</a></p>
                     </div>
                     @if( $role == 'Administrator' )
                         <div class="col-sm-6 col-md-4">
@@ -61,9 +62,8 @@
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#responses" aria-controls="response" role="tab" data-toggle="tab">Responses</a></li>
+                    <li role="presentation" class="active"><a href="#summary" aria-controls="reviews-summary" role="tab" data-toggle="tab">Summary</a></li>
                     <li role="presentation"><a href="#not-reviewed" aria-controls="not-reviewed" role="tab" data-toggle="tab">Not Reviewed</a></li>
-                    <li role="presentation"><a href="#reviews-summary" aria-controls="reviews-summary" role="tab" data-toggle="tab">Reviews Summary</a></li>
                 </ul>
                 @if( $form->import_status == 1 )
 
@@ -85,57 +85,49 @@
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="responses">
-                            <form class="form-inline">
-                                <div class="form-group">
-                                    {{-- TODO: Add search field --}}
-                                </div>
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <label class="checkbox" style="margin-top: -20px;">
-                                                <input type="checkbox" data-toggle="checkbox">
-                                            </label>
-                                        </th>
-                                        <th>{{ $form->responses_headers[$brief_field] }}</th>
-                                        <th class="text-center">Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach( $responses as $index => $response )
-                                        <tr class="clickable-row" data-href="{{ url('/response/'.$response->id ) }}">
-                                            <td>
-                                                <label class="checkbox" style="margin-top: -20px;">
-                                                    <input type="checkbox" data-toggle="checkbox">
-                                                </label>
-                                            </td>
-                                            <td>{{ $response->data[$brief_field] }}</td>
-                                            <td class="text-center">
-                                                @if($response->reviews($user))
-                                                    @if($response->reviews($user)->is_complete())
-                                                        Done
-                                                    @else
-                                                        Not
-                                                    @endif
-                                                @else
-                                                    Not
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </form>
 
-                            <div class="text-center">
-                                {{ $responses->links() }}
-                            </div>
-                        </div> <!-- #responses -->
+                        <div role="tabpanel" class="tab-pane active" id="summary">
+                            <br/>
+
+                            <table class="table table-hover table-bordered table-condensed" id="reviews-summary-table">
+                                <thead>
+                                <tr>
+                                    <th><small>#</small></th>
+                                    <th><small>{{ $form->responses_headers[$brief_field] }}</small></th>
+                                    @foreach($form->ratings_config as $config)
+                                        <th><small>{{ $config["title"] }}</small></th>
+                                    @endforeach
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($form->responses as $key => $response)
+                                    <tr class="clickable-row" data-href="{{ url('/response/'.$response->id ) }}">
+                                        <td>{{ $key + 1 }}</td>
+                                        <td><a href="{{ url('/response/'.$response->id) }}" target="_blank">
+                                                {{ $response->data[$brief_field] }}
+                                            </a></td>
+                                        @if( !$response->reviews($user) )
+                                            @foreach($form->ratings_config as $key => $config)
+                                                <td><small>-</small></td>
+                                            @endforeach
+                                        @else
+                                            @foreach($form->ratings_config as $key => $config)
+                                                @if($response->reviews($user)->feedback[$key])
+                                                    <td>{{ $response->reviews($user)->feedback[$key] }}</td>
+                                                @else
+                                                    <td><small>-</small></td>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </tr>
+                                @endforeach
+                                </tbody>
+
+                            </table>
+                        </div>
 
                         <div role="tabpanel" class="tab-pane" id="not-reviewed">
                             <br/>
-                            <p><a href="javascript:location.reload();" class="btn btn-info">Refresh list</a></p>
 
                             <p>These are links to the responses <strong>not yet</strong> reviewed:</p>
                             <ol>
@@ -143,41 +135,6 @@
                                     <li><a href="{{ $url }}" target="_blank">{{ $url }}</a></li>
                                 @endforeach
                             </ol>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="reviews-summary">
-                            <br/>
-                            <p><a href="javascript:location.reload();" class="btn btn-info">Refresh list</a></p>
-
-                            <p>Summary of your reviews:</p>
-                            <table class="table table-hover table-bordered table-condensed">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ $form->responses_headers[$brief_field] }}</th>
-                                        @foreach($form->ratings_config as $config)
-                                            <th>{{ $config["title"] }}</th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($form->responses as $key => $response)
-                                        <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td><a href="{{ url('/response/'.$response->id) }}" target="_blank">
-                                                    {{ $response->data[$brief_field] }}
-                                            </a></td>
-                                            @if( !$response->reviews($user) )
-                                                <td colspan="{{ count($form->ratings_config) }}">Not yet reviewed</td>
-                                            @else
-                                                @foreach($response->reviews($user)->feedback as $feedback)
-                                                    <td>{{ $feedback }}</td>
-                                                @endforeach
-                                            @endif
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-
-                            </table>
                         </div>
 
                     </div>
@@ -210,6 +167,13 @@
         $('.clickable-row').click(function() {
             window.document.location = $(this).data('href');
         });
+
+        $('#reviews-summary-table').DataTable({
+            fixedHeader: true,
+            scrollY: 500,
+            paging: false
+        });
+
     });
 
     // Javascript to enable link to tab
@@ -225,6 +189,8 @@
         } else {
             window.location.hash = e.target.hash; //Polyfill for old browsers
         }
-    })
+    });
+
+
 </script>
 @endsection
