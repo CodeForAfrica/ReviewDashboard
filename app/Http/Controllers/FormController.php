@@ -264,6 +264,7 @@ class FormController extends Controller
             }
 
             $users[$index]->reviews_done = $reviews_done;
+            $users[$index]->responses_total = $form->responses()->count();
 
             switch (DB::table('form_user')->where('user_id', $user->id)->where('form_id', $form->id)->first()->role_id) {
                 case 1:

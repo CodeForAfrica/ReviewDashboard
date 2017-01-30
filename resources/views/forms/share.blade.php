@@ -108,7 +108,7 @@
                     <h5 class="list-group-item-heading">@{{ name }} <small>@{{ role }}</small></h5>
                     <p class="list-group-item-text">
                         @{{ email }} <br/>
-                        <small>@{{ reviews_done }} reviews done</small>
+                        <small>@{{ reviews_done }} <small>out of @{{ responses_total }}</small> reviews done</small>
                     </p>
                 </label>
             </div>
