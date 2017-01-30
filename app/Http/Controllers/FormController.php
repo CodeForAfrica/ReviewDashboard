@@ -257,8 +257,8 @@ class FormController extends Controller
             foreach ($reviews as $review){
                 $do_not_count = false;
                 if (count((array) $review->feedback) == 0) { $do_not_count = true; };
-                foreach ((array)$review->feedback as $feedback){
-                    if ($feedback == ""){ $do_not_count = true; }
+                foreach ((array)$review->feedback as $feedback_index => $feedback){
+                    if ($form->ratings_config[$feedback_index]['required'] == 'yes' && trim($feedback) == ''){ $do_not_count = true; }
                 }
                 if (!$do_not_count) { $reviews_done++ ; };
             }

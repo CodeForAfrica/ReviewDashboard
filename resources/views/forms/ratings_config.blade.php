@@ -82,6 +82,19 @@
                                 <textarea class="form-control" name="description" placeholder="Description" rows="2">@{{ description }}</textarea>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="label" class="col-sm-3 control-label">Required</label>
+                            <div class="col-sm-9">
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-inverse @{{ required_yes }}">
+                                        <input type="radio" name="required" id="required_yes" autocomplete="off" value="yes"> Yes
+                                    </label>
+                                    <label class="btn btn-inverse @{{ required_no }}">
+                                        <input type="radio" name="required" id="required_no" autocomplete="off" value="no"> No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="col-xs-1 text-right">
@@ -109,7 +122,8 @@
                 payload.configs[index] = {
                     'title': $( this ).find('input[name="title"]').val(),
                     'type': $( this ).find('label.active input[name="type"]').val(),
-                    'description': $( this ).find('textarea[name="description"]').val()
+                    'description': $( this ).find('textarea[name="description"]').val(),
+                    'required': $( this ).find('label.active input[name="required"]').val()
                 }
             });
 
@@ -145,6 +159,16 @@
                 default:
                     config.type_text = 'active';
             }
+            switch (config.required){
+                case 'yes':
+                    config.required_yes = 'active';
+                    break;
+                case 'no':
+                    config.required_no = 'active';
+                    break;
+                default:
+                    config.required_yes = 'active';
+            }
 
             var html = template(config);
 
@@ -179,5 +203,6 @@
             @endif
 
         });
+
     </script>
 @endsection
