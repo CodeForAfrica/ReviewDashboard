@@ -170,9 +170,9 @@
 
         $('#reviews-summary-table').DataTable({
             scrollY: 400,
-            paging: false
+            paging: false,
+            responsive: true
         });
-        $('#reviews-summary-table').DataTable().columns.adjust().draw();
 
     });
 
