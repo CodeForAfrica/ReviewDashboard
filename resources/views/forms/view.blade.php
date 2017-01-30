@@ -62,6 +62,7 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#responses" aria-controls="home" role="tab" data-toggle="tab">Responses</a></li>
+                    <li role="presentation"><a href="#not-reviewed" aria-controls="home" role="tab" data-toggle="tab">Not Reviewed</a></li>
                 </ul>
                 @if( $form->import_status == 1 )
 
@@ -119,7 +120,6 @@
                                                 @else
                                                     Not
                                                 @endif
-                                                {{-- TODO: Check status of the response; whether reviewed et. al. --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -131,6 +131,18 @@
                                 {{ $responses->links() }}
                             </div>
                         </div> <!-- #responses -->
+
+                        <div role="tabpanel" class="tab-pane" id="not-reviewed">
+                            <br/>
+                            <p><a href="javascript:location.reload();" class="btn btn-info">Refresh list</a></p>
+
+                            <p>These are links to the responses <strong>not yet</strong> reviewed:</p>
+                            <ol>
+                                @foreach( $form->responses($user)->reviewed_not_urls as $index => $url )
+                                    <li><a href="{{ $url }}" target="_blank">{{ $url }}</a></li>
+                                @endforeach
+                            </ol>
+                        </div>
 
                     </div>
 
@@ -163,5 +175,20 @@
             window.document.location = $(this).data('href');
         });
     });
+
+    // Javascript to enable link to tab
+    var url = document.location.toString();
+    if (url.match('#')) {
+        $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+    }
+
+    // Change hash for page-reload
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        if(history.pushState) {
+            history.pushState(null, null, e.target.hash);
+        } else {
+            window.location.hash = e.target.hash; //Polyfill for old browsers
+        }
+    })
 </script>
 @endsection
