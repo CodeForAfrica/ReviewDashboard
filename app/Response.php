@@ -27,7 +27,9 @@ class Response extends Model
     public function reviews($user = false)
     {
         if ($user){
-            return $this->hasMany('App\Review')->where('user_id', $user->id)->first();
+            $review = $this->hasMany('App\Review')->where('user_id', $user->id)->first();
+            if ($review){ if (count($review->feedback) == 0){ $review = null; }; };
+            return $review;
         }
         return $this->hasMany('App\Review');
     }

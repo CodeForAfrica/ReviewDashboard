@@ -61,8 +61,9 @@
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#responses" aria-controls="home" role="tab" data-toggle="tab">Responses</a></li>
-                    <li role="presentation"><a href="#not-reviewed" aria-controls="home" role="tab" data-toggle="tab">Not Reviewed</a></li>
+                    <li role="presentation" class="active"><a href="#responses" aria-controls="response" role="tab" data-toggle="tab">Responses</a></li>
+                    <li role="presentation"><a href="#not-reviewed" aria-controls="not-reviewed" role="tab" data-toggle="tab">Not Reviewed</a></li>
+                    <li role="presentation"><a href="#reviews-summary" aria-controls="reviews-summary" role="tab" data-toggle="tab">Reviews Summary</a></li>
                 </ul>
                 @if( $form->import_status == 1 )
 
@@ -142,6 +143,41 @@
                                     <li><a href="{{ $url }}" target="_blank">{{ $url }}</a></li>
                                 @endforeach
                             </ol>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="reviews-summary">
+                            <br/>
+                            <p><a href="javascript:location.reload();" class="btn btn-info">Refresh list</a></p>
+
+                            <p>Summary of your reviews:</p>
+                            <table class="table table-hover table-bordered table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>{{ $form->responses_headers[$brief_field] }}</th>
+                                        @foreach($form->ratings_config as $config)
+                                            <th>{{ $config["title"] }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($form->responses as $key => $response)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td><a href="{{ url('/response/'.$response->id) }}" target="_blank">
+                                                    {{ $response->data[$brief_field] }}
+                                            </a></td>
+                                            @if( !$response->reviews($user) )
+                                                <td colspan="{{ count($form->ratings_config) }}">Not yet reviewed</td>
+                                            @else
+                                                @foreach($response->reviews($user)->feedback as $feedback)
+                                                    <td>{{ $feedback }}</td>
+                                                @endforeach
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+
+                            </table>
                         </div>
 
                     </div>
