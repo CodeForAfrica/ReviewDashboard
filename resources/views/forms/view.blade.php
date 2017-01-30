@@ -171,10 +171,7 @@
         $('#reviews-summary-table').DataTable({
             scrollY: 400,
             scrollX: true,
-            paging: false,
-            "columnDefs": [
-                { "width": "45%", "targets": 1 }
-            ]
+            paging: false
         });
 
     });
