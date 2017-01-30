@@ -102,10 +102,11 @@ class FormController extends Controller
         $form = Form::findOrFail($id);
 
         $responses = $form->responses()->paginate(10);
+        $user = $request->user();
 
         $role = 'Nothing';
         
-        switch (DB::table('form_user')->where('user_id', $request->user()->id)->where('form_id', $form->id)->first()->role_id) {
+        switch (DB::table('form_user')->where('user_id', $user->id)->where('form_id', $form->id)->first()->role_id) {
             case 1:
                 $role = 'Administrator';
                 break;
@@ -125,8 +126,7 @@ class FormController extends Controller
 
         $linkify = new Linkify(array('attr' => array('target' => '_blank', 'rel' => 'noreferrer noopener')));
 
-
-        $data = compact('form', 'responses', 'role', 'brief_field', 'linkify');
+        $data = compact('form', 'responses', 'role', 'brief_field', 'linkify', 'user');
 
         return view('forms.view',$data);
     }
@@ -252,22 +252,8 @@ class FormController extends Controller
             $users[$index]->name = $user->name;
             $users[$index]->email = $user->email;
 
-            $reviews = Review::where('user_id', $user->id)->where('form_id', $form->id)->get();
-            $reviews_done = 0;
-            foreach ($reviews as $review){
-                $do_not_count = false;
-                if (count((array) $review->feedback) == 0) { $do_not_count = true; };
-                foreach ((array)$review->feedback as $feedback_index => $feedback){
-                    if (trim($form->ratings_config[$feedback_index]['title']) == 'NEED TO RECUSE YOURSELF?'){
-                        if ($feedback == 'yes') { $do_not_count = false; break; };
-                    }
-                    if ($form->ratings_config[$feedback_index]['required'] == 'yes'
-                        && trim($feedback) == ''){ $do_not_count = true; }
-                }
-                if (!$do_not_count) { $reviews_done++ ; };
-            }
 
-            $users[$index]->reviews_done = $reviews_done;
+            $users[$index]->reviews_done = count($form->responses($users[$index])->reviewed);
             $users[$index]->responses_total = $form->responses()->count();
 
             switch (DB::table('form_user')->where('user_id', $user->id)->where('form_id', $form->id)->first()->role_id) {

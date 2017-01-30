@@ -23,19 +23,56 @@ class Form extends Model
         return $this->belongsToMany('App\User')->withPivot('role_id')->withTimestamps();
     }
 
+    public function user_reviews($user){
+        $reviews = $this->hasMany('App\Review')->where('user_id', $user->id);
+        return $reviews;
+    }
+
+
     /**
      * Get the responses for the form.
      */
-    public function responses()
+    public function responses($user = false)
     {
-        return $this->hasMany('App\Response');
+        $responses = $this->hasMany('App\Response');
+
+        $responses->reviewed = [];
+        $responses->reviewed_not = [];
+
+        if ($user){
+            foreach ($responses->get() as $response){
+                $review = $response->reviews()->where('user_id', $user->id)->first();
+                if (!$review){
+                    array_push($responses->reviewed_not, $response);
+                } else {
+                    $is_reviewed = false;
+                    foreach ((array)$review->feedback as $feedback_index => $feedback){
+                        if (trim($this->ratings_config[$feedback_index]['title']) == 'NEED TO RECUSE YOURSELF?'){
+                            if ($feedback == 'yes') { $is_reviewed = true; break; };
+                        }
+                        if ($this->ratings_config[$feedback_index]['required'] == 'yes'
+                            && trim($feedback) == ''){ $is_reviewed = false; }
+                    }
+                    if ($is_reviewed){
+                        array_push($responses->reviewed, $response);
+                    } else {
+                        array_push($responses->reviewed_not, $response);
+                    }
+                }
+            }
+        }
+        return $responses;
     }
+
 
     /**
      * Get the reviews for the form.
      */
-    public function reviews()
+    public function reviews($user = false)
     {
+        if ($user){
+            return $this->user_reviews($user);
+        }
         return $this->hasMany('App\Review');
     }
 

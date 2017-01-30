@@ -110,7 +110,7 @@
                                             </td>
                                             <td>{{ $response->data[$brief_field] }}</td>
                                             <td class="text-center">
-                                                -
+                                                {{ $response->reviews($user) ? 'Done' : 'Not' }}
                                                 {{-- TODO: Check status of the response; whether reviewed et. al. --}}
                                             </td>
                                         </tr>

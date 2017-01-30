@@ -24,8 +24,11 @@ class Response extends Model
     /**
      * Get the reviews that have been given to this response.
      */
-    public function reviews()
+    public function reviews($user = false)
     {
+        if ($user){
+            return $this->hasMany('App\Review')->where('user_id', $user->id)->first();
+        }
         return $this->hasMany('App\Review');
     }
 
